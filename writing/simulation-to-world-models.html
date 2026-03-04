@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>From Simulation to World Models — Kazuki</title>
+  <meta name="description" content="VLAs generalize through semantics. World models generalize through dynamics. The best labs are converging on using both — and NVIDIA already shipped the proof.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Kazuki</a>
+      <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../#writing">Writing</a></li>
+        <li><a href="../#photography">Photography</a></li>
+        <li><a href="../#work">Work</a></li>
+        <li><a href="../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="post-page">
+    <div class="container">
+      <a href="../" class="post-page-back">Back to home</a>
+      <div class="post-page-date">March 2026</div>
+      <h1>From Simulation to World Models</h1>
+      <p class="post-page-subtitle">VLAs generalize through semantics. World models generalize through dynamics. The best labs are converging on using both — and NVIDIA already shipped the proof.</p>
+      <div class="post-page-body">
+        <p>The question isn't whether world models and VLAs are in tension. They're not. The real question is: where does generalization come from?</p>
+        <p>VLAs bet on semantics. World models bet on dynamics. The best labs are converging on using both — world models generate the training data that VLAs learn from. You get language grounding from the backbone and causal reasoning from the dynamics model. You stop needing proportionally more real-world demonstrations to scale.</p>
+
+        <h2>Two bets on generalization</h2>
+        <p>VLAs — Pi0, OpenVLA — are fine-tuned vision-language models that output actions. Internet-scale pretraining bakes in world knowledge; robot control adapts it. Generalization comes from the backbone. The weakness: brittle on novel physics, hungry for real-world demonstration data.</p>
+        <p>World models predict how state changes in response to action — a compressed internal model of cause and effect. Dreamer does this in latent space: plan in imagination, execute in reality. Sample-efficient. Capable of counterfactual reasoning. The weakness: hard to scale, and the model can hallucinate dynamics.</p>
+
+        <h2>The scaling question</h2>
+        <p>Transformers scaled because the objective matched the data: next-token prediction on internet text is infinitely scalable, self-supervised, universal. The task and the corpus were made for each other.</p>
+        <p>World models don't have that pairing yet. They need interaction data — state, action, next state, outcome — which is scarce, domain-specific, expensive. There is no internet of physical dynamics.</p>
+        <blockquote>Defining a universal task function as simple and elegant as next-token prediction in LLMs has long been a central goal of world model research.</blockquote>
+        <p>Fei-Fei Li, building World Labs, is betting that video at internet scale is the unlock. The architectures are nascent. The scaling laws aren't established. But the direction is clear.</p>
+
+        <h2>The transition I watched at NVIDIA</h2>
+        <p>NVIDIA's synthetic data pipeline for AV and robotics used to run through Omniverse — physics-based simulation, game engine style. Hand-authored 3D scenes, specified materials, rendered training data. It worked. It was also fundamentally hand-crafted: labor-intensive, limited in diversity, slow to scale.</p>
+        <p>Cosmos replaced that entire pipeline. Trained on 20 million hours of real-world video, it generates physics-aware synthetic data from text, images, or structured inputs. The Cosmos paper puts it cleanly: physical AI needs a digital twin of itself (the policy model) and a digital twin of the world (the world model). Omniverse simulated the world. Cosmos models it.</p>
+        <p>Compose a 3D scene in Omniverse as ground truth. Condition Cosmos to generate photorealistic variants — weather, lighting, edge cases — at scale. Days become hours. Figure AI, Agility Robotics, 1X, and Skild AI are already using it.</p>
+        <p>The shift: you no longer author world states. The model generates them.</p>
+        <p>This is what Fei-Fei means by closing the sim-to-real gap. It's not a research direction. It shipped.</p>
+
+        <h2>The same insight, applied to patients</h2>
+        <p>LeCun and Alex LeBrun (Nabla co-founder) launched AMI Labs with the same framing applied to healthcare: LLMs predict words, world models predict patients. A physician mentally simulates treatment paths before acting — fluids versus vasopressors, admit versus discharge. That internal model is what AI needs to replicate.</p>
+        <p>At Kaigo, we sit on longitudinal patient event streams: clinical events, interventions, outcomes. Already causally structured. Already sequential. Already labeled. A world model over patient trajectories would let you plan care coordination sequences — not prompt an LLM for the next step, but simulate the next thirty days.</p>
+        <p>The data scarcity problem that plagues general robotics is tractable in a bounded clinical domain. You don't need a general world model. You need one that predicts readmissions and care gap closure for a specific ACO population. That's a data flywheel moat, not a research problem. Probably why LeCun chose healthcare as a proving ground.</p>
+
+        <h2>The underlying pattern</h2>
+        <p>Robots manipulating objects. Care coordinators deciding who to call. The structure is identical: long-horizon sequential decisions under partial observability. LLMs handle this by generating plausible next steps. World models handle it by simulating consequences.</p>
+        <p>Simulating is harder. It's also the only way to get reliability. The question is which domains accumulate enough causally-structured data to make it work — and build around it before anyone else does.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <span>&copy; 2026 Kazuki</span>
+      <span>San Francisco</span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
