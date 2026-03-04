@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leverage and the Modern Founder — Kazuki</title>
+  <meta name="description" content="Naval Ravikant wrote that you should give society what it wants but does not yet know how to get — at scale. Media is the newest form of leverage.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Kazuki</a>
+      <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../#writing">Writing</a></li>
+        <li><a href="../#photography">Photography</a></li>
+        <li><a href="../#work">Work</a></li>
+        <li><a href="../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="post-page">
+    <div class="container">
+      <a href="../" class="post-page-back">Back to home</a>
+      <div class="post-page-date">February 2026</div>
+      <h1>Leverage and the Modern Founder</h1>
+      <p class="post-page-subtitle">Naval Ravikant wrote that you should "give society what it wants but does not yet know how to get — at scale." Media is the newest form of leverage.</p>
+      <div class="post-page-body">
+        <p>I recently sat next to a founder at a dinner who told me his first lawyer came from Stripe, his first designer was world-class, and he raised a $10M seed — all because people read his blog. No warm intros. No networking events. Just writing.</p>
+        <p>That conversation changed how I think about building a company.</p>
+
+        <h2>The four forms of leverage</h2>
+        <p>Naval Ravikant identifies four forms of leverage: labor (people working for you), capital (money working for you), code (software working for you), and media (content working for you). The first two require permission. The last two don't.</p>
+        <p>Code and media are the great equalizers. A first-time founder with a blog can reach more people than a partner at a top VC firm. A well-written essay about your vision can do more for recruiting than a hundred LinkedIn messages.</p>
+
+        <h2>Writing as a founder's superpower</h2>
+        <p>When you write publicly about what you're building and why, several things happen simultaneously. You attract people who share your vision. You repel people who don't — which is equally valuable. You clarify your own thinking. And you create a permanent, searchable artifact of your ideas that compounds over time.</p>
+        <blockquote>Writing is not marketing. Writing is thinking, made visible.</blockquote>
+        <p>The founders I admire most — the ones building truly enduring companies — almost all write. Not because they have time. Because they can't afford not to.</p>
+        <p>This is why I'm starting to write. Not to build an audience for its own sake, but because the act of articulating what Kaigo Health is building forces me to think more clearly about it. And if that thinking resonates with someone exceptional — an engineer, an investor, a future patient — then the writing has done its job.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <span>© 2026 Kazuki</span>
+      <span>San Francisco</span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

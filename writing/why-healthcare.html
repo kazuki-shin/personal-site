@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why I'm Building in Healthcare — Kazuki</title>
+  <meta name="description" content="The healthcare system is fundamentally broken — not because people don't care, but because the infrastructure was never designed for the people it serves.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Kazuki</a>
+      <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../#writing">Writing</a></li>
+        <li><a href="../#photography">Photography</a></li>
+        <li><a href="../#work">Work</a></li>
+        <li><a href="../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="post-page">
+    <div class="container">
+      <a href="../" class="post-page-back">Back to home</a>
+      <div class="post-page-date">March 2026</div>
+      <h1>Why I'm Building in Healthcare</h1>
+      <p class="post-page-subtitle">The healthcare system is fundamentally broken — not because people don't care, but because the infrastructure was never designed for the people it serves.</p>
+      <div class="post-page-body">
+        <p>I didn't start my career in healthcare. I started behind a camera lens, shooting runway shows at New York Fashion Week, trying to capture something beautiful and fleeting. But somewhere along the way, I realized that the most important problems weren't on the runway — they were in the waiting rooms.</p>
+
+        <h2>The problem is structural</h2>
+        <p>Healthcare in the United States is a $4.3 trillion industry that still runs on fax machines. The average patient waits 26 days to see a specialist. Caregivers — the invisible backbone of our system — are burning out at unprecedented rates. And the technology that exists to help them is often more burden than benefit.</p>
+        <p>I founded Kaigo Health because I believe the next generation of healthcare technology shouldn't just digitize paperwork. It should fundamentally rethink how care is delivered, coordinated, and experienced.</p>
+
+        <h2>Why now</h2>
+        <p>Three forces are converging that make this the right moment to build: AI has reached a level of capability that can genuinely augment clinical decision-making. The regulatory environment is shifting toward interoperability and patient data access. And a new generation of healthcare workers is demanding better tools.</p>
+        <blockquote>The best time to fix healthcare was twenty years ago. The second best time is now.</blockquote>
+        <p>At Kaigo, we're starting with the people who need it most — the caregivers, the coordinators, the people who hold the system together with duct tape and compassion. We're building the infrastructure they deserve.</p>
+        <p>If you're an engineer, designer, or operator who wants to work on problems that actually matter — I'd love to hear from you.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <span>© 2026 Kazuki</span>
+      <span>San Francisco</span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Fashion Photography Taught Me About Product Design — Kazuki</title>
+  <meta name="description" content="Standing behind a lens at NYFW, I learned that the best designs share something with the best products — they make complexity feel effortless.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Kazuki</a>
+      <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../#writing">Writing</a></li>
+        <li><a href="../#photography">Photography</a></li>
+        <li><a href="../#work">Work</a></li>
+        <li><a href="../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="post-page">
+    <div class="container">
+      <a href="../" class="post-page-back">Back to home</a>
+      <div class="post-page-date">January 2026</div>
+      <h1>What Fashion Photography Taught Me About Product Design</h1>
+      <p class="post-page-subtitle">Standing behind a lens at NYFW, I learned that the best designs share something with the best products — they make complexity feel effortless.</p>
+      <div class="post-page-body">
+        <p>People are always surprised when I tell them I was a runway photographer. "How did you go from fashion to healthcare?" they ask. But the transition made more sense than you'd think.</p>
+
+        <h2>The art of seeing</h2>
+        <p>Photography is fundamentally about seeing — about training your eye to notice what others miss. The way light falls on a shoulder. The moment a model's expression shifts from composed to vulnerable. The one frame in a thousand that tells the whole story.</p>
+        <p>Building products requires the same kind of seeing. You have to observe how people actually use things, not how they say they do. You have to notice the moments of friction, confusion, and delight. You have to find the one insight in a thousand that unlocks the whole product.</p>
+
+        <h2>Constraints breed creativity</h2>
+        <p>At NYFW, you have perhaps three seconds to capture each look. The lighting is fixed. The angle is constrained by a hundred other photographers. You can't ask the model to stop. Within those brutal constraints, you have to find something extraordinary.</p>
+        <p>Startups operate under similar constraints — limited time, limited money, limited people. The best founders, like the best photographers, don't resent constraints. They use them as creative fuel.</p>
+        <blockquote>Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away. — Antoine de Saint-Exupéry</blockquote>
+        <p>At Kaigo, we design with this principle. Every screen, every interaction, every feature has to earn its place. If it doesn't make the caregiver's life meaningfully better, it doesn't ship.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <span>© 2026 Kazuki</span>
+      <span>San Francisco</span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
