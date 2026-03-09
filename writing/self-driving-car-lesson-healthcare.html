@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Self-Driving Car Lesson Nobody Applied to Healthcare — Kazuki</title>
+  <meta name="description" content="Autonomous vehicles replaced their entire hand-engineered stack with a single learned model. Healthcare's care coordination pipeline is waiting for the same transition.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .post-figure { margin: 2.5rem 0; }
+    .post-figure svg { width: 100%; height: auto; display: block; }
+    .post-figure figcaption {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      color: var(--color-text-tertiary);
+      margin-top: 0.75rem;
+      text-align: center;
+      font-style: italic;
+    }
+    .post-figure.wide {
+      margin-left: -2rem;
+      margin-right: -2rem;
+    }
+    .metric-callout {
+      display: flex;
+      gap: 2rem;
+      padding: 1.5rem 2rem;
+      background: var(--color-hover);
+      border-radius: 8px;
+      margin: 2rem 0;
+      justify-content: center;
+    }
+    .metric-callout .metric { text-align: center; }
+    .metric-callout .metric-value {
+      font-family: var(--font-sans);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--color-text);
+      letter-spacing: -0.03em;
+    }
+    .metric-callout .metric-label {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      color: var(--color-text-tertiary);
+      margin-top: 0.25rem;
+    }
+    @media (max-width: 768px) {
+      .post-figure.wide { margin-left: -1.25rem; margin-right: -1.25rem; }
+      .metric-callout { flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Kazuki</a>
+      <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../#writing">Writing</a></li>
+        <li><a href="../#photography">Photography</a></li>
+        <li><a href="../#work">Work</a></li>
+        <li><a href="../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="post-page">
+    <div class="container">
+      <a href="../" class="post-page-back">Back to home</a>
+      <div class="post-page-date">March 2026</div>
+      <h1>The Self-Driving Car Lesson Nobody Applied to Healthcare</h1>
+      <p class="post-page-subtitle">Autonomous vehicles replaced their entire hand-engineered stack with a single learned model. Healthcare's care coordination pipeline is waiting for the same transition.</p>
+      <div class="post-page-body">
+        <p>For a decade, the self-driving car industry built its stack the way you'd expect engineers to build it: one module at a time. Perception to detect objects. Prediction to forecast where they'd go. Planning to decide a path. Controls to execute the steering. Each module was owned by a different team, connected by explicit interfaces, and improved by engineers hand-coding rules for every new edge case. A pedestrian stepping off a curb at dusk? Write a rule. A construction cone half-fallen into the lane? Write another rule. The system didn't get better by driving. It got better by engineers working overtime after crashes.</p>
+        <p>Then something changed. The best AV teams — Tesla with FSD, Wayve with LINGO-2, NVIDIA's Alpamayo — started collapsing the entire pipeline into a single end-to-end learned model. Sensor data goes in, driving actions come out. The boundaries between perception, prediction, planning, and controls blur. The system learns the whole task jointly from dense driving data. It gets better by driving. Every mile is training data. The edge cases that used to require hand-coded rules get resolved by the model seeing enough examples.</p>
+        <p>This transition — from a hand-engineered pipeline of specialized modules to a single learned model — is the most important architectural shift happening in AI right now. And almost nobody has noticed that healthcare is next.</p>
+
+        <!-- DIAGRAM 1: The AV Stack Transition -->
+        <figure class="post-figure wide">
+          <svg viewBox="0 0 740 490" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              text { font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; }
+            </style>
+            <defs>
+              <marker id="arr" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="5" orient="auto">
+                <polygon points="0 0.5, 8 3.5, 0 6.5" fill="#19333A"/>
+              </marker>
+              <marker id="arr-o" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="5" orient="auto">
+                <polygon points="0 0.5, 8 3.5, 0 6.5" fill="#FAAC68"/>
+              </marker>
+            </defs>
+
+            <!-- BEFORE: Modular AV Stack -->
+            <text x="370" y="24" text-anchor="middle" font-size="10" font-weight="600" fill="#9B9B9B" letter-spacing="0.1em">THE OLD STACK</text>
+
+            <rect x="32" y="38" width="676" height="170" rx="10" fill="#F8F6ED" stroke="#E8E8E4" stroke-width="1"/>
+
+            <rect x="52" y="60" width="140" height="62" rx="6" fill="white" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="122" y="82" text-anchor="middle" font-size="12" font-weight="500" fill="#6B6B6B">Perception</text>
+            <text x="122" y="98" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Detect objects</text>
+            <text x="122" y="112" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Team A</text>
+
+            <line x1="192" y1="91" x2="218" y2="91" stroke="#19333A" stroke-width="1.2" marker-end="url(#arr)"/>
+
+            <rect x="222" y="60" width="140" height="62" rx="6" fill="white" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="292" y="82" text-anchor="middle" font-size="12" font-weight="500" fill="#6B6B6B">Prediction</text>
+            <text x="292" y="98" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Forecast trajectories</text>
+            <text x="292" y="112" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Team B</text>
+
+            <line x1="362" y1="91" x2="388" y2="91" stroke="#19333A" stroke-width="1.2" marker-end="url(#arr)"/>
+
+            <rect x="392" y="60" width="140" height="62" rx="6" fill="white" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="462" y="82" text-anchor="middle" font-size="12" font-weight="500" fill="#6B6B6B">Planning</text>
+            <text x="462" y="98" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Decide path</text>
+            <text x="462" y="112" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Team C</text>
+
+            <line x1="532" y1="91" x2="558" y2="91" stroke="#19333A" stroke-width="1.2" marker-end="url(#arr)"/>
+
+            <rect x="562" y="60" width="130" height="62" rx="6" fill="white" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="627" y="82" text-anchor="middle" font-size="12" font-weight="500" fill="#6B6B6B">Controls</text>
+            <text x="627" y="98" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Execute steering</text>
+            <text x="627" y="112" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Team D</text>
+
+            <!-- Hand-coded rules callout -->
+            <rect x="140" y="140" width="460" height="30" rx="4" fill="none" stroke="#D0D0CC" stroke-width="1" stroke-dasharray="4,3"/>
+            <text x="370" y="160" text-anchor="middle" font-size="11" font-weight="400" fill="#9B9B9B">Edge cases resolved by engineers hand-coding rules</text>
+
+            <text x="370" y="228" text-anchor="middle" font-size="11" font-weight="400" fill="#9B9B9B">Separate modules · Separate teams · Explicit interfaces · Gets better by engineering</text>
+
+            <!-- Transition arrow -->
+            <line x1="370" y1="242" x2="370" y2="282" stroke="#FAAC68" stroke-width="2.5" marker-end="url(#arr-o)"/>
+            <text x="405" y="268" font-size="12" font-weight="600" fill="#FAAC68">The shift</text>
+
+            <!-- AFTER: End-to-End Learned -->
+            <text x="370" y="302" text-anchor="middle" font-size="10" font-weight="600" fill="#9B9B9B" letter-spacing="0.1em">THE NEW STACK</text>
+
+            <rect x="32" y="316" width="676" height="130" rx="10" fill="#FAFAF8" stroke="#19333A" stroke-width="1.5"/>
+
+            <rect x="52" y="340" width="160" height="56" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="132" y="363" text-anchor="middle" font-size="13" font-weight="500" fill="#19333A">Sensor Data</text>
+            <text x="132" y="381" text-anchor="middle" font-size="10" font-weight="400" fill="#6B6B6B">Cameras, LiDAR, radar</text>
+
+            <line x1="212" y1="368" x2="252" y2="368" stroke="#19333A" stroke-width="1.5" marker-end="url(#arr)"/>
+
+            <rect x="256" y="332" width="228" height="72" rx="8" fill="#FAAC68" stroke="#19333A" stroke-width="1.5"/>
+            <text x="370" y="360" text-anchor="middle" font-size="15" font-weight="600" fill="#19333A">End-to-End Model</text>
+            <text x="370" y="380" text-anchor="middle" font-size="11" font-weight="400" fill="#19333A">Learned from dense driving data</text>
+            <text x="370" y="396" text-anchor="middle" font-size="10" font-weight="400" fill="#6B6B6B">Every mile = training data</text>
+
+            <line x1="484" y1="368" x2="524" y2="368" stroke="#FAAC68" stroke-width="1.5" marker-end="url(#arr-o)"/>
+
+            <rect x="528" y="340" width="164" height="56" rx="6" fill="#EEF7E2" stroke="#19333A" stroke-width="1"/>
+            <text x="610" y="363" text-anchor="middle" font-size="13" font-weight="500" fill="#19333A">Driving Actions</text>
+            <text x="610" y="381" text-anchor="middle" font-size="10" font-weight="400" fill="#6B6B6B">Steering, throttle, brake</text>
+
+            <text x="370" y="470" text-anchor="middle" font-size="11" font-weight="400" fill="#9B9B9B">One model · Learns jointly · Gets better by driving</text>
+
+            <!-- Companies -->
+            <text x="370" y="488" text-anchor="middle" font-size="10" font-weight="500" fill="#6B6B6B">Tesla FSD · Wayve LINGO-2 · NVIDIA Alpamayo</text>
+          </svg>
+          <figcaption>The AV stack transition. Four hand-engineered modules owned by four teams, connected by explicit interfaces and improved by hand-coded rules — replaced by a single end-to-end learned model that improves with every mile driven.</figcaption>
+        </figure>
+
+        <h2>Why this transition took so long</h2>
+        <p>The modular stack wasn't stupid. It was the right architecture when data was scarce and compute was expensive. If you can only afford to train small models, you want each one focused on a narrow sub-problem. Perception is hard enough on its own without also asking the same model to plan. And explicit interfaces between modules give you interpretability — when the car makes a bad decision, you can trace exactly which module failed.</p>
+        <p>What changed was the data. Dense sensor logs from millions of miles of real-world driving created a dataset rich enough that a single model could learn the full task jointly. And critically, end-to-end training solved a problem the modular stack never could: error propagation across module boundaries. When perception makes a small error in the old stack, prediction compounds it, planning compounds it further, and by the time controls executes, the car is reacting to a world state that doesn't exist. In the end-to-end model, errors in early representations get corrected by the learning signal from the final driving outcome.</p>
+        <p>The modular stack failed gracefully until it didn't. The learned model failed messily at first, then got better and better. One architecture has a ceiling. The other has a scaling law.</p>
+
+        <h2>Healthcare's modular stack</h2>
+        <p>Now look at how care coordination works today. A patient with multiple chronic conditions — diabetes, CHF, depression — is managed through a pipeline that looks almost identical to the old AV stack. Separate systems handle each piece. A risk stratification model flags the patient as high-risk. A care gap engine identifies overdue screenings. A utilization management team reviews authorization requests. A nurse care manager makes outreach calls from a prioritized list. An analytics dashboard reports outcomes quarterly.</p>
+
+        <div class="metric-callout">
+          <div class="metric">
+            <div class="metric-value">$4.3T</div>
+            <div class="metric-label">US Healthcare Spend</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">26 Days</div>
+            <div class="metric-label">Avg. Specialist Wait</div>
+          </div>
+        </div>
+
+        <p>Each of these functions was built by a different vendor, maintained by a different team, and connected by manual handoffs and batch data feeds. The risk model doesn't know what the care manager said on the phone last Tuesday. The care gap engine doesn't account for the prior authorization that's been stuck in queue for three weeks. The utilization review is blind to the patient's trajectory over the last six months. Sound familiar?</p>
+        <p>This is the modular stack. And it has the exact same failure mode: errors compound across module boundaries, each component optimizes its own sub-problem in isolation, and the system gets better only when humans manually patch the gaps between components.</p>
+
+        <!-- DIAGRAM 2: Healthcare's Modular Stack (Before) -->
+        <figure class="post-figure wide">
+          <svg viewBox="0 0 740 300" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              text { font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; }
+            </style>
+            <defs>
+              <marker id="arr2" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="5" orient="auto">
+                <polygon points="0 0.5, 8 3.5, 0 6.5" fill="#19333A"/>
+              </marker>
+            </defs>
+
+            <text x="370" y="24" text-anchor="middle" font-size="10" font-weight="600" fill="#9B9B9B" letter-spacing="0.1em">HEALTHCARE'S MODULAR STACK</text>
+
+            <rect x="32" y="38" width="676" height="200" rx="10" fill="#F8F6ED" stroke="#E8E8E4" stroke-width="1"/>
+
+            <!-- Row 1 -->
+            <rect x="52" y="58" width="195" height="52" rx="6" fill="white" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="149" y="79" text-anchor="middle" font-size="12" font-weight="500" fill="#6B6B6B">Risk Stratification</text>
+            <text x="149" y="98" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Vendor A · Batch refresh</text>
+
+            <line x1="247" y1="84" x2="273" y2="84" stroke="#19333A" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+            <rect x="277" y="58" width="195" height="52" rx="6" fill="white" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="374" y="79" text-anchor="middle" font-size="12" font-weight="500" fill="#6B6B6B">Care Gap Detection</text>
+            <text x="374" y="98" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Vendor B · Separate rules</text>
+
+            <line x1="472" y1="84" x2="498" y2="84" stroke="#19333A" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+            <rect x="502" y="58" width="195" height="52" rx="6" fill="white" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="599" y="79" text-anchor="middle" font-size="12" font-weight="500" fill="#6B6B6B">Outreach Prioritization</text>
+            <text x="599" y="98" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Vendor C · Static worklists</text>
+
+            <!-- Row 2 -->
+            <rect x="120" y="130" width="195" height="52" rx="6" fill="white" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="217" y="151" text-anchor="middle" font-size="12" font-weight="500" fill="#6B6B6B">Utilization Review</text>
+            <text x="217" y="170" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Vendor D · Manual review</text>
+
+            <line x1="315" y1="156" x2="350" y2="156" stroke="#D0D0CC" stroke-width="1" stroke-dasharray="4,3"/>
+
+            <rect x="432" y="130" width="195" height="52" rx="6" fill="white" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="529" y="151" text-anchor="middle" font-size="12" font-weight="500" fill="#6B6B6B">Outcomes Reporting</text>
+            <text x="529" y="170" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Vendor E · Quarterly lag</text>
+
+            <!-- Disconnection indicators -->
+            <line x1="149" y1="110" x2="217" y2="130" stroke="#D0D0CC" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="599" y1="110" x2="529" y2="130" stroke="#D0D0CC" stroke-width="1" stroke-dasharray="4,3"/>
+
+            <!-- Failure mode callout -->
+            <rect x="120" y="200" width="500" height="30" rx="4" fill="none" stroke="#D0D0CC" stroke-width="1" stroke-dasharray="4,3"/>
+            <text x="370" y="220" text-anchor="middle" font-size="11" font-weight="400" fill="#9B9B9B">Gaps patched by humans manually coordinating between systems</text>
+
+            <text x="370" y="262" text-anchor="middle" font-size="11" font-weight="400" fill="#9B9B9B">5 vendors · 5 teams · Manual handoffs · Gets better by human effort</text>
+            <text x="370" y="284" text-anchor="middle" font-size="11" font-weight="500" fill="#6B6B6B">The risk model doesn't know what the care manager said on Tuesday.</text>
+          </svg>
+          <figcaption>Healthcare's care coordination pipeline today: separate vendors, separate systems, manual handoffs. Each component optimizes in isolation. Errors compound across boundaries — exactly like the old AV stack.</figcaption>
+        </figure>
+
+        <h2>What the end-to-end transition looks like for a patient</h2>
+        <p>Yann LeCun and Alex LeBrun launched AMI Labs with a provocation that reframed everything I'd been thinking about: LLMs predict words; world models predict patients. And they chose healthcare as the proving ground for a reason — the data is already causally structured.</p>
+        <p>Think about what a good physician actually does. Before ordering a test or writing a prescription, they're running a simulation in their head: if I start vasopressors now, what does this patient's MAP look like in four hours? If I discharge today, what's the readmission risk in fourteen days? The best clinicians aren't following flowcharts. They're modeling futures. They are, functionally, world models running on biological hardware.</p>
+        <p>The end-to-end transition for healthcare means replacing the fragmented vendor pipeline with a single model that ingests the full patient state — claims, labs, clinical events, social determinants, care manager notes — and outputs a coordinated care plan. Not just "this patient is high risk" (that's the perception module alone). Not just "this screening is overdue" (that's the care gap module alone). But: given this patient's full trajectory over the last two years, here is the optimal sequence of interventions over the next thirty days, ranked by expected impact on outcomes.</p>
+        <p>The model doesn't just flag. It simulates. It evaluates candidate care plans against the patient's predicted trajectory before any action is taken. That's the difference between an LLM (generate a plausible next step) and a world model (simulate the consequences of each option).</p>
+
+        <!-- DIAGRAM 3: The Structural Parallel -->
+        <figure class="post-figure wide">
+          <svg viewBox="0 0 740 460" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              text { font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; }
+            </style>
+            <defs>
+              <marker id="arr3" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="5" orient="auto">
+                <polygon points="0 0.5, 8 3.5, 0 6.5" fill="#19333A"/>
+              </marker>
+              <marker id="arr3-o" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="5" orient="auto">
+                <polygon points="0 0.5, 8 3.5, 0 6.5" fill="#FAAC68"/>
+              </marker>
+            </defs>
+
+            <!-- Header -->
+            <rect x="195" y="16" width="350" height="52" rx="8" fill="#19333A"/>
+            <text x="370" y="38" text-anchor="middle" font-size="11" font-weight="600" fill="white" letter-spacing="0.06em">THE SAME TRANSITION</text>
+            <text x="370" y="56" text-anchor="middle" font-size="12" font-weight="400" fill="#FAAC68">Modular pipeline → End-to-end learned model</text>
+
+            <!-- Left column: Autonomous Vehicles -->
+            <text x="150" y="96" text-anchor="middle" font-size="10" font-weight="600" fill="#9B9B9B" letter-spacing="0.1em">AUTONOMOUS VEHICLES</text>
+
+            <!-- Before -->
+            <rect x="32" y="110" width="236" height="120" rx="8" fill="#F8F6ED" stroke="#E8E8E4" stroke-width="1"/>
+            <text x="52" y="130" font-size="9" font-weight="600" fill="#9B9B9B" letter-spacing="0.08em">BEFORE</text>
+            <text x="150" y="152" text-anchor="middle" font-size="11" font-weight="500" fill="#6B6B6B">Perception → Prediction</text>
+            <text x="150" y="170" text-anchor="middle" font-size="11" font-weight="500" fill="#6B6B6B">→ Planning → Controls</text>
+            <text x="150" y="192" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">4 modules · 4 teams</text>
+            <text x="150" y="208" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Hand-coded rules for edge cases</text>
+
+            <!-- Arrow down -->
+            <line x1="150" y1="234" x2="150" y2="266" stroke="#FAAC68" stroke-width="2" marker-end="url(#arr3-o)"/>
+
+            <!-- After -->
+            <rect x="32" y="270" width="236" height="80" rx="8" fill="#FAFAF8" stroke="#19333A" stroke-width="1.5"/>
+            <text x="52" y="290" font-size="9" font-weight="600" fill="#9B9B9B" letter-spacing="0.08em">AFTER</text>
+            <text x="150" y="312" text-anchor="middle" font-size="13" font-weight="600" fill="#19333A">End-to-End Model</text>
+            <text x="150" y="332" text-anchor="middle" font-size="10" font-weight="400" fill="#6B6B6B">Sensors → Actions · Learns from driving</text>
+
+            <!-- Right column: Healthcare -->
+            <text x="590" y="96" text-anchor="middle" font-size="10" font-weight="600" fill="#9B9B9B" letter-spacing="0.1em">HEALTHCARE</text>
+
+            <!-- Before -->
+            <rect x="472" y="110" width="236" height="120" rx="8" fill="#F8F6ED" stroke="#E8E8E4" stroke-width="1"/>
+            <text x="492" y="130" font-size="9" font-weight="600" fill="#9B9B9B" letter-spacing="0.08em">BEFORE</text>
+            <text x="590" y="152" text-anchor="middle" font-size="11" font-weight="500" fill="#6B6B6B">Risk Strat → Care Gaps</text>
+            <text x="590" y="170" text-anchor="middle" font-size="11" font-weight="500" fill="#6B6B6B">→ Outreach → Reporting</text>
+            <text x="590" y="192" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">5 vendors · 5 silos</text>
+            <text x="590" y="208" text-anchor="middle" font-size="10" font-weight="400" fill="#9B9B9B">Gaps patched by human effort</text>
+
+            <!-- Arrow down -->
+            <line x1="590" y1="234" x2="590" y2="266" stroke="#FAAC68" stroke-width="2" marker-end="url(#arr3-o)"/>
+
+            <!-- After -->
+            <rect x="472" y="270" width="236" height="80" rx="8" fill="#FAFAF8" stroke="#19333A" stroke-width="1.5"/>
+            <text x="492" y="290" font-size="9" font-weight="600" fill="#9B9B9B" letter-spacing="0.08em">AFTER</text>
+            <text x="590" y="312" text-anchor="middle" font-size="13" font-weight="600" fill="#19333A">Patient World Model</text>
+            <text x="590" y="332" text-anchor="middle" font-size="10" font-weight="400" fill="#6B6B6B">Full state → Care plan · Learns from outcomes</text>
+
+            <!-- Center connecting elements -->
+            <line x1="268" y1="170" x2="472" y2="170" stroke="#E8E8E4" stroke-width="1" stroke-dasharray="4,4"/>
+            <text x="370" y="167" text-anchor="middle" font-size="10" font-weight="500" fill="#9B9B9B">same architecture</text>
+
+            <line x1="268" y1="310" x2="472" y2="310" stroke="#FAAC68" stroke-width="1.5" stroke-dasharray="4,4"/>
+            <text x="370" y="307" text-anchor="middle" font-size="10" font-weight="600" fill="#FAAC68">same transition</text>
+
+            <!-- Bottom insight -->
+            <rect x="120" y="378" width="500" height="66" rx="10" fill="#FAAC68" fill-opacity="0.12" stroke="#FAAC68" stroke-width="1.5"/>
+            <text x="370" y="400" text-anchor="middle" font-size="10" font-weight="600" fill="#19333A" letter-spacing="0.1em">THE KEY DIFFERENCE</text>
+            <text x="370" y="420" text-anchor="middle" font-size="12" font-weight="500" fill="#19333A">AVs needed millions of miles to get enough data.</text>
+            <text x="370" y="437" text-anchor="middle" font-size="12" font-weight="500" fill="#19333A">Healthcare already has it — longitudinal, causally structured, labeled by outcomes.</text>
+          </svg>
+          <figcaption>The structural parallel. AVs went from a modular pipeline to an end-to-end model. Healthcare's care coordination pipeline is at the same inflection point — with one advantage: the data is already there.</figcaption>
+        </figure>
+
+        <h2>Why healthcare might be easier than driving</h2>
+        <p>This sounds counterintuitive, so let me be precise about what I mean. Building a general world model that understands all of physics — every possible road condition, weather pattern, pedestrian behavior — is an extraordinarily hard problem. That's why AV companies needed millions of miles and billions of dollars to get to where they are today. The domain is open-ended. The tail of edge cases is essentially infinite.</p>
+        <p>Healthcare's care coordination problem is bounded. You don't need a universal model of human physiology. You need one that predicts readmissions and care gap closure for a specific ACO population with specific chronic conditions. The patient state space is large but enumerable. The intervention set is finite. And critically, the data already exists — longitudinal patient event streams (clinical events, interventions, outcomes) that are inherently sequential, already causally structured, and already labeled by what happened next.</p>
+        <p>This is what gets me up in the morning at Kaigo. We're sitting on exactly the kind of data that makes the end-to-end transition tractable. Not because we cracked some research problem — but because the structure of the domain means the data flywheel can start spinning immediately. Every patient interaction generates training signal. Every care plan outcome is a label. The model doesn't need millions of miles. It needs thousands of patient trajectories in a bounded clinical domain. We have those.</p>
+
+        <blockquote>The data scarcity problem that makes general world models so hard is already solved in healthcare. The data is there. It's structured. It closes the loop. What's missing is the architecture to learn from it end-to-end.</blockquote>
+
+        <h2>What this means for how care coordination works</h2>
+        <p>The practical implication is this: today, a care coordinator with a panel of 200 patients opens their EHR in the morning, looks at a static risk-stratified worklist, and makes judgment calls about who to call first and what to discuss. The risk score was generated last week from a model that doesn't know about the ER visit on Saturday. The care gap list was refreshed yesterday but doesn't account for the specialist referral that's been pending for three weeks. The coordinator fills the gaps with experience, intuition, and an enormous amount of manual work.</p>
+        <p>The end-to-end version: the model has already ingested the ER visit, the pending referral, the medication adherence data from the pharmacy benefit, and the patient's historical response to prior outreach attempts. It doesn't present a static list. It simulates the next thirty days for each patient under different intervention sequences and surfaces the highest-impact actions, in order, with expected outcomes attached. The coordinator still makes the call. But the call they make is informed by a simulation of consequences, not a static flag from a siloed system.</p>
+        <p>That's the difference between L2 and L4. L2 gives you alerts and worklists — it helps, but the human is still doing all the integration across systems. L4 gives you a model that's already done the integration and is presenting you with evaluated options. The human supervises and overrides. They don't assemble.</p>
+
+        <h2>The bet</h2>
+        <p>Every industry that generates enough sequential, causally-structured data will eventually make this transition. The modular stack — specialized components connected by explicit interfaces, improved by human effort — will give way to end-to-end learned systems that improve from their own operational data. It happened in machine translation. It happened in speech recognition. It's happening now in autonomous vehicles. Healthcare is next, and in some ways, it's better positioned than any of them.</p>
+        <p>The question isn't whether this transition will happen. It's who builds the data flywheel first — who accumulates enough patient trajectories in a bounded clinical domain to make the end-to-end model work, and then uses the model's predictions to generate even better data.</p>
+        <p>I know which domain I'm betting on.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <span>&copy; 2026 Kazuki</span>
+      <span>San Francisco</span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
