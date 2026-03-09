@@ -9,17 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-  <script>mermaid.initialize({startOnLoad: true, theme: 'base', themeVariables: {
-      primaryColor: '#e8f4f0',
-      primaryTextColor: '#1a2a2a',
-      primaryBorderColor: '#2d8a70',
-      lineColor: '#5a7a70',
-      secondaryColor: '#fdf6ec',
-      tertiaryColor: '#f0f4f8',
-      fontFamily: 'DM Sans, sans-serif',
-      fontSize: '14px'
-  }});</script>
   <style>
     /* Post-specific styles for diagrams, stats, and landscape grid */
     .stat-grid {
@@ -59,19 +48,107 @@
       background: #ffffff;
       border: 1px solid #e2ddd5;
       border-radius: 12px;
-      text-align: center;
-      overflow-x: auto;
     }
     .diagram-container figcaption {
       font-family: 'Inter', sans-serif;
       font-size: 0.85rem;
       color: #4a5a5a;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
       text-align: center;
     }
-    .diagram-container .mermaid svg {
-      max-width: 100%;
-      height: auto;
+
+    /* Parallel comparison diagram */
+    .parallel-diagram {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .parallel-column {
+      text-align: center;
+    }
+    .parallel-column-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #4a5a5a;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #2d8a70;
+    }
+    .diagram-node {
+      background: #e8f4f0;
+      border: 1px solid #2d8a70;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .diagram-node .node-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1a2a2a;
+      margin-bottom: 0.25rem;
+    }
+    .diagram-node .node-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      color: #4a5a5a;
+      line-height: 1.4;
+    }
+    .diagram-arrow {
+      color: #5a7a70;
+      font-size: 1.2rem;
+      margin: 0.25rem 0;
+      text-align: center;
+    }
+
+    /* Flywheel diagram */
+    .flywheel-diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .flywheel-node {
+      background: #e8f4f0;
+      border: 1px solid #2d8a70;
+      border-radius: 8px;
+      padding: 0.85rem 1.25rem;
+      text-align: center;
+      width: 100%;
+      max-width: 320px;
+    }
+    .flywheel-node .node-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1a2a2a;
+    }
+    .flywheel-node .node-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      color: #4a5a5a;
+    }
+    .flywheel-arrow {
+      color: #5a7a70;
+      font-size: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .flywheel-arrow span {
+      white-space: nowrap;
+    }
+    .flywheel-loop {
+      margin-top: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      color: #2d8a70;
+      font-weight: 500;
+      text-align: center;
     }
 
     .landscape-grid {
@@ -151,6 +228,7 @@
       .stat-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
       .stat-card .stat-number { font-size: 1.5rem; }
       .diagram-container { margin: 2rem 0; padding: 1.25rem 1rem; }
+      .parallel-diagram { grid-template-columns: 1fr; }
       .landscape-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -253,19 +331,42 @@
         <p>Care coordination is stuck in the Omniverse phase. Hand-coded rules. Static protocols. Care managers manually triaging based on experience and gut feeling. The architectural shift that needs to happen is the same one that transformed autonomous vehicles:</p>
 
         <figure class="diagram-container">
-          <pre class="mermaid">
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f4f0', 'primaryBorderColor': '#2d8a70', 'lineColor': '#5a7a70', 'fontFamily': 'Inter, sans-serif', 'fontSize': '13px'}}}%%
-graph LR
-    subgraph AV["Autonomous Vehicles"]
-        direction TB
-        A1["Perception\nSensor fusion\n→ world state"] --> A2["Planning\nTrajectory optimization\n→ route decisions"] --> A3["Controls\nSteering + throttle\n→ vehicle action"]
-    end
-    subgraph HC["Care Coordination"]
-        direction TB
-        B1["Perception\nClinical data fusion\n→ patient state"] --> B2["Planning\nIntervention triage\n→ care decisions"] --> B3["Controls\nOutreach execution\n→ care action"]
-    end
-    AV ~~~ HC
-          </pre>
+          <div class="parallel-diagram">
+            <div class="parallel-column">
+              <div class="parallel-column-title">Autonomous Vehicles</div>
+              <div class="diagram-node">
+                <div class="node-title">Perception</div>
+                <div class="node-desc">Sensor fusion → world state</div>
+              </div>
+              <div class="diagram-arrow">↓</div>
+              <div class="diagram-node">
+                <div class="node-title">Planning</div>
+                <div class="node-desc">Trajectory optimization → route decisions</div>
+              </div>
+              <div class="diagram-arrow">↓</div>
+              <div class="diagram-node">
+                <div class="node-title">Controls</div>
+                <div class="node-desc">Steering + throttle → vehicle action</div>
+              </div>
+            </div>
+            <div class="parallel-column">
+              <div class="parallel-column-title">Care Coordination</div>
+              <div class="diagram-node">
+                <div class="node-title">Perception</div>
+                <div class="node-desc">Clinical data fusion → patient state</div>
+              </div>
+              <div class="diagram-arrow">↓</div>
+              <div class="diagram-node">
+                <div class="node-title">Planning</div>
+                <div class="node-desc">Intervention triage → care decisions</div>
+              </div>
+              <div class="diagram-arrow">↓</div>
+              <div class="diagram-node">
+                <div class="node-title">Controls</div>
+                <div class="node-desc">Outreach execution → care action</div>
+              </div>
+            </div>
+          </div>
           <figcaption>The perception → planning → controls architecture governs both autonomous vehicles and autonomous care coordination. The parallel isn't metaphorical — it's structural.</figcaption>
         </figure>
 
@@ -282,15 +383,33 @@ graph LR
         <p>This is the exact data format that trains reinforcement learning models. It's not a coincidence. Waymark, a San Francisco-based care coordination company, has published peer-reviewed research using exactly this framework across 2.77 million care coordination decisions. Their SARSA-guided system reduced acute care events by 20.7% compared to standard workflows.</p>
 
         <figure class="diagram-container">
-          <pre class="mermaid">
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f4f0', 'primaryBorderColor': '#2d8a70', 'lineColor': '#5a7a70', 'fontFamily': 'Inter, sans-serif', 'fontSize': '13px'}}}%%
-graph TD
-    S["Patient State\nRisk factors + conditions"] -->|Care team acts| A["Action\nCall, referral, med change"]
-    A -->|Patient evolves| NS["Next State\nUpdated conditions"]
-    NS -->|Episode resolves| O["Outcome\nReadmission? Quality met?"]
-    O -->|Trains better models| M["Planning Model\nOptimal interventions"]
-    M -->|Improves decisions| S
-          </pre>
+          <div class="flywheel-diagram">
+            <div class="flywheel-node">
+              <div class="node-title">Patient State</div>
+              <div class="node-desc">Risk factors + conditions</div>
+            </div>
+            <div class="flywheel-arrow">↓ <span>Care team acts</span></div>
+            <div class="flywheel-node">
+              <div class="node-title">Action</div>
+              <div class="node-desc">Call, referral, med change</div>
+            </div>
+            <div class="flywheel-arrow">↓ <span>Patient evolves</span></div>
+            <div class="flywheel-node">
+              <div class="node-title">Next State</div>
+              <div class="node-desc">Updated conditions</div>
+            </div>
+            <div class="flywheel-arrow">↓ <span>Episode resolves</span></div>
+            <div class="flywheel-node">
+              <div class="node-title">Outcome</div>
+              <div class="node-desc">Readmission? Quality met?</div>
+            </div>
+            <div class="flywheel-arrow">↓ <span>Trains better models</span></div>
+            <div class="flywheel-node">
+              <div class="node-title">Planning Model</div>
+              <div class="node-desc">Optimal interventions</div>
+            </div>
+            <div class="flywheel-loop">↻ Improves decisions → back to Patient State</div>
+          </div>
           <figcaption>The VBC data flywheel: every patient interaction generates the causally structured data — (state, action, next_state, outcome) — that trains better planning models. This is the healthcare equivalent of Rippling's employee graph.</figcaption>
         </figure>
 
