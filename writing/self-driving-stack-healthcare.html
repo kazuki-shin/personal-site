@@ -60,6 +60,7 @@
       border: 1px solid #e2ddd5;
       border-radius: 12px;
       text-align: center;
+      overflow-x: auto;
     }
     .diagram-container figcaption {
       font-family: 'Inter', sans-serif;
@@ -67,6 +68,10 @@
       color: #4a5a5a;
       margin-top: 1rem;
       text-align: center;
+    }
+    .diagram-container .mermaid svg {
+      max-width: 100%;
+      height: auto;
     }
 
     .landscape-grid {
@@ -253,11 +258,11 @@
 graph LR
     subgraph AV["Autonomous Vehicles"]
         direction TB
-        A1["Perception\nLidar + camera + radar\nfusion → world state"] --> A2["Planning\nTrajectory optimization\n→ route decisions"] --> A3["Controls\nSteering, throttle, brake\n→ vehicle action"]
+        A1["Perception\nSensor fusion\n→ world state"] --> A2["Planning\nTrajectory optimization\n→ route decisions"] --> A3["Controls\nSteering + throttle\n→ vehicle action"]
     end
     subgraph HC["Care Coordination"]
         direction TB
-        B1["Perception\nADT + claims + labs + SDOH\nfusion → patient state"] --> B2["Planning\nIntervention triage\n→ care decisions"] --> B3["Controls\nCalls, scheduling, referrals\n→ care action"]
+        B1["Perception\nClinical data fusion\n→ patient state"] --> B2["Planning\nIntervention triage\n→ care decisions"] --> B3["Controls\nOutreach execution\n→ care action"]
     end
     AV ~~~ HC
           </pre>
@@ -280,11 +285,11 @@ graph LR
           <pre class="mermaid">
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f4f0', 'primaryBorderColor': '#2d8a70', 'lineColor': '#5a7a70', 'fontFamily': 'Inter, sans-serif', 'fontSize': '13px'}}}%%
 graph TD
-    S["Patient State\nRisk factors, conditions,\nrecent events"] -->|Care team acts| A["Action\nCall, referral, med change,\nscheduling"]
-    A -->|Patient evolves| NS["Next State\nUpdated conditions,\nengagement level"]
-    NS -->|Episode resolves| O["Outcome\nReadmission? ER visit?\nQuality measure met?"]
-    O -->|Trains better models| M["Planning Model\nLearns optimal\nintervention sequences"]
-    M -->|Improves decisions for| S
+    S["Patient State\nRisk factors + conditions"] -->|Care team acts| A["Action\nCall, referral, med change"]
+    A -->|Patient evolves| NS["Next State\nUpdated conditions"]
+    NS -->|Episode resolves| O["Outcome\nReadmission? Quality met?"]
+    O -->|Trains better models| M["Planning Model\nOptimal interventions"]
+    M -->|Improves decisions| S
           </pre>
           <figcaption>The VBC data flywheel: every patient interaction generates the causally structured data — (state, action, next_state, outcome) — that trains better planning models. This is the healthcare equivalent of Rippling's employee graph.</figcaption>
         </figure>
