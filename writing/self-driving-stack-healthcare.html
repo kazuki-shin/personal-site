@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Self-Driving Stack for Healthcare — Kazuki</title>
+  <meta name="description" content="Care coordination is an autonomous systems problem. The same shift that created self-driving cars is happening in value-based care — and no one has built the operating system yet.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({startOnLoad: true, theme: 'base', themeVariables: {
+      primaryColor: '#e8f4f0',
+      primaryTextColor: '#1a2a2a',
+      primaryBorderColor: '#2d8a70',
+      lineColor: '#5a7a70',
+      secondaryColor: '#fdf6ec',
+      tertiaryColor: '#f0f4f8',
+      fontFamily: 'DM Sans, sans-serif',
+      fontSize: '14px'
+  }});</script>
+  <style>
+    /* Post-specific styles for diagrams, stats, and landscape grid */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin: 2.5rem 0;
+    }
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid #e2ddd5;
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .stat-card .stat-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2d8a70;
+      line-height: 1.1;
+    }
+    .stat-card.warm .stat-number {
+      color: #c4713b;
+    }
+    .stat-card .stat-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: #4a5a5a;
+      margin-top: 0.4rem;
+      line-height: 1.35;
+    }
+
+    .diagram-container {
+      margin: 2.5rem 0;
+      padding: 2rem 1.5rem;
+      background: #ffffff;
+      border: 1px solid #e2ddd5;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .diagram-container figcaption {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #4a5a5a;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .landscape-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #e2ddd5;
+      border: 1px solid #e2ddd5;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 2.5rem 0;
+    }
+    .landscape-cell {
+      background: #ffffff;
+      padding: 1.5rem;
+    }
+    .landscape-cell .cell-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #4a5a5a;
+      margin-bottom: 0.6rem;
+    }
+    .landscape-cell .cell-players {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #1a2a2a;
+      margin-bottom: 0.35rem;
+    }
+    .landscape-cell .cell-gap {
+      font-size: 0.85rem;
+      color: #4a5a5a;
+      line-height: 1.45;
+      font-style: italic;
+    }
+    .landscape-cell.highlight {
+      background: #e8f4f0;
+      border: 2px solid #2d8a70;
+      border-radius: 10px;
+      margin: -1px;
+    }
+    .landscape-cell.highlight .cell-players {
+      color: #2d8a70;
+    }
+    .landscape-caption {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #4a5a5a;
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    .section-divider {
+      text-align: center;
+      margin: 3rem 0;
+      color: #e2ddd5;
+      font-size: 1.5rem;
+      letter-spacing: 0.5em;
+    }
+
+    .aside-note {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #4a5a5a;
+      background: #fdf6ec;
+      border-left: 3px solid #c4713b;
+      padding: 1.25rem 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    @media (max-width: 600px) {
+      .stat-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+      .stat-card .stat-number { font-size: 1.5rem; }
+      .diagram-container { margin: 2rem 0; padding: 1.25rem 1rem; }
+      .landscape-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Kazuki</a>
+      <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../#writing">Writing</a></li>
+        <li><a href="../#photography">Photography</a></li>
+        <li><a href="../#work">Work</a></li>
+        <li><a href="../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="post-page">
+    <div class="container">
+      <a href="../" class="post-page-back">Back to home</a>
+      <div class="post-page-date">March 2026</div>
+      <h1>The Self-Driving Stack for Healthcare</h1>
+      <p class="post-page-subtitle">Care coordination is an autonomous systems problem. The same architectural shift that created self-driving cars is happening in value-based care — and no one has built the operating system yet.</p>
+      <div class="post-page-body">
+
+        <p>Patrick Collison once gave a talk titled <em>"Founding a Company That Should Have Already Existed."</em> The trick wasn't that Stripe invented online payments — it's that Collison described a world where the internet's GDP was being throttled by a problem so obvious that the solution felt discovered, not invented. Seven lines of code. That's all it took, once someone named the gap.</p>
+        <p>The best founder theses work this way. They don't describe a product. They describe an inevitability — a claim about the world so structurally sound that the company becomes the only logical response. Shopify framed a war between Amazon's empire and independent merchants, then armed the rebels. Rippling named the conventional wisdom ("focus, focus, focus"), inverted it, and argued that the deepest business problems <em>span</em> products — connected by a single data structure, the employee graph, that makes everything downstream compounding.</p>
+        <p>This post makes a similar structural claim, but about healthcare: <strong>care coordination is an autonomous systems problem</strong>, and value-based care generates exactly the right data to solve it.</p>
+
+        <div class="section-divider">&middot; &middot; &middot;</div>
+
+        <h2>The inflection no one has infrastructure for</h2>
+
+        <p>Value-based care has crossed from policy experiment to structural inevitability. But the operational infrastructure hasn't kept pace — and the gap is widening.</p>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-number">93.5M</div>
+            <div class="stat-label">Americans in an ACO arrangement</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">$6.6B</div>
+            <div class="stat-label">Gross savings by MSSP ACOs in 2024</div>
+          </div>
+          <div class="stat-card warm">
+            <div class="stat-number">141K</div>
+            <div class="stat-label">Projected physician shortage by 2038</div>
+          </div>
+          <div class="stat-card warm">
+            <div class="stat-number">87%</div>
+            <div class="stat-label">Of providers cite financial risk as top VBC barrier</div>
+          </div>
+        </div>
+
+        <p>In 2024, MSSP ACOs generated record savings — $2.48 billion net to Medicare — with 75% of ACOs earning shared savings for the first time. CMS has set an explicit target: 100% of Medicare beneficiaries in accountable care by 2030. Medicare Advantage covers 54% of eligible beneficiaries. VBC patients are projected to nearly double, from 43 million to 90 million, by 2027.</p>
+        <p>And yet: 80% of providers cite low organizational readiness. The average clinician stays in an MSSP ACO just 3.6 years. Three-quarters of ACOs span six or more EHR systems. The infrastructure gap isn't about analytics — it's about end-to-end operations. The industry has dashboards. It doesn't have an operating system.</p>
+
+        <blockquote>The industry has dashboards. It doesn't have an operating system.</blockquote>
+
+        <h2>Four categories, zero full-stack solutions</h2>
+
+        <p>The competitive landscape confirms the gap. The market today fragments into four incomplete categories — each solving a piece, none solving the whole.</p>
+
+        <div class="landscape-grid">
+          <div class="landscape-cell">
+            <div class="cell-label">Data & Analytics</div>
+            <div class="cell-players">Innovaccer, Arcadia, Healthec</div>
+            <div class="cell-gap">Generate insights, but don't execute care workflows. Even Innovaccer's "Atlas" — which they call the population health operating system — remains fundamentally an analytics layer.</div>
+          </div>
+          <div class="landscape-cell">
+            <div class="cell-label">ACO Enablers</div>
+            <div class="cell-players">Aledade, Caravan Health</div>
+            <div class="cell-gap">Excel at MSSP optimization but narrow in scope. Built for a specific regulatory program, not generalizable VBC operations.</div>
+          </div>
+          <div class="landscape-cell">
+            <div class="cell-label">Risk-Bearing Entities</div>
+            <div class="cell-players">Agilon Health, CareMax</div>
+            <div class="cell-gap">Dangerously concentrated in Medicare Advantage. Agilon's stock crashed 51.5% in a single day in August 2025 after suspending guidance.</div>
+          </div>
+          <div class="landscape-cell highlight">
+            <div class="cell-label">Full-Stack VBC OS</div>
+            <div class="cell-players">&larr; The gap</div>
+            <div class="cell-gap">No single player has built the end-to-end operating system: signal aggregation &rarr; intervention planning &rarr; automated outreach execution.</div>
+          </div>
+        </div>
+        <p class="landscape-caption">The VBC infrastructure landscape: four categories, one conspicuous absence.</p>
+
+        <p>Meanwhile, three converging forces are creating unprecedented data availability. TEFCA now connects 72,000+ organizations with over 474 million documents exchanged. CMS-0057 forces payer APIs live by January 2027. And healthcare AI adoption among physicians nearly doubled in a single year, from 38% to 66%.</p>
+        <p>The pipes are being built. The data is starting to flow. But the operating system to convert that data into coordinated action doesn't exist yet.</p>
+
+        <div class="section-divider">&middot; &middot; &middot;</div>
+
+        <h2>Why autonomous systems is the right mental model</h2>
+
+        <p>Here's the insight that makes this more than a market thesis: <strong>healthcare care coordination maps, with surprising precision, onto the architecture of autonomous vehicles.</strong></p>
+        <p>At NVIDIA, the transition from Omniverse to Cosmos represents a paradigm shift. Omniverse was hand-authored simulation — manually composing scenes, labeling physical attributes, rendering outputs. Cosmos is world foundation models trained on 20 million hours of real-world data that can predict and generate future states of environments. One system follows rules. The other learns how the world works.</p>
+        <p>Care coordination is stuck in the Omniverse phase. Hand-coded rules. Static protocols. Care managers manually triaging based on experience and gut feeling. The architectural shift that needs to happen is the same one that transformed autonomous vehicles:</p>
+
+        <figure class="diagram-container">
+          <pre class="mermaid">
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f4f0', 'primaryBorderColor': '#2d8a70', 'lineColor': '#5a7a70', 'fontFamily': 'Inter, sans-serif', 'fontSize': '13px'}}}%%
+graph LR
+    subgraph AV["Autonomous Vehicles"]
+        direction TB
+        A1["Perception\nLidar + camera + radar\nfusion → world state"] --> A2["Planning\nTrajectory optimization\n→ route decisions"] --> A3["Controls\nSteering, throttle, brake\n→ vehicle action"]
+    end
+    subgraph HC["Care Coordination"]
+        direction TB
+        B1["Perception\nADT + claims + labs + SDOH\nfusion → patient state"] --> B2["Planning\nIntervention triage\n→ care decisions"] --> B3["Controls\nCalls, scheduling, referrals\n→ care action"]
+    end
+    AV ~~~ HC
+          </pre>
+          <figcaption>The perception → planning → controls architecture governs both autonomous vehicles and autonomous care coordination. The parallel isn't metaphorical — it's structural.</figcaption>
+        </figure>
+
+        <p><strong>Perception</strong> is signal aggregation. Just as AVs fuse lidar, camera, and radar data to perceive the world, VBC operations must aggregate ADT feeds, claims, labs, social determinants, and EHR data across fragmented systems to perceive a patient's current state. This is the hardest unsolved problem in care coordination today — and it's why TEFCA and CMS-0057 matter so much. They're building the sensor array.</p>
+        <p><strong>Planning</strong> is intervention triage. Which patients need what interventions, in what sequence, at what intensity? Today this happens through static risk scores and human judgment. The autonomous version learns optimal intervention sequences from outcome data — the same way AV planners learn optimal trajectories from driving data.</p>
+        <p><strong>Controls</strong> is outreach execution. Phone calls, appointment scheduling, referral routing, medication follow-ups. Today this is manual. The autonomous version executes and adapts in real time — AI voice calls, automated scheduling, intelligent escalation.</p>
+
+        <blockquote>Care coordination is stuck in the Omniverse phase. Hand-coded rules. Static protocols. The architectural shift it needs is the same one that created self-driving cars.</blockquote>
+
+        <h2>The data structure that makes this compounding</h2>
+
+        <p>This is where it gets interesting — and where the thesis shifts from "good analogy" to "structural advantage."</p>
+        <p>Every value-based care deployment generates causally structured data: <strong>(state, action, next_state, outcome)</strong> tuples. A patient presents with a set of conditions and risk factors (state). A care team takes an action — a phone call, a medication change, a referral (action). The patient's condition evolves (next_state). And the episode resolves in a measurable outcome — readmission or not, ER visit or not, quality measure met or not (outcome).</p>
+        <p>This is the exact data format that trains reinforcement learning models. It's not a coincidence. Waymark, a San Francisco-based care coordination company, has published peer-reviewed research using exactly this framework across 2.77 million care coordination decisions. Their SARSA-guided system reduced acute care events by 20.7% compared to standard workflows.</p>
+
+        <figure class="diagram-container">
+          <pre class="mermaid">
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f4f0', 'primaryBorderColor': '#2d8a70', 'lineColor': '#5a7a70', 'fontFamily': 'Inter, sans-serif', 'fontSize': '13px'}}}%%
+graph TD
+    S["Patient State\nRisk factors, conditions,\nrecent events"] -->|Care team acts| A["Action\nCall, referral, med change,\nscheduling"]
+    A -->|Patient evolves| NS["Next State\nUpdated conditions,\nengagement level"]
+    NS -->|Episode resolves| O["Outcome\nReadmission? ER visit?\nQuality measure met?"]
+    O -->|Trains better models| M["Planning Model\nLearns optimal\nintervention sequences"]
+    M -->|Improves decisions for| S
+          </pre>
+          <figcaption>The VBC data flywheel: every patient interaction generates the causally structured data — (state, action, next_state, outcome) — that trains better planning models. This is the healthcare equivalent of Rippling's employee graph.</figcaption>
+        </figure>
+
+        <p>This is the "employee graph" for healthcare. Rippling's insight was that once you own the single connected data structure for all employee data, every downstream workflow becomes compounding rather than additive. The patient interaction graph works the same way. Every node — every care coordination decision — makes every subsequent decision smarter.</p>
+
+        <div class="aside-note">
+          <strong>Why this isn't happening yet:</strong> No production VBC platform has built the patient interaction graph as a first-class data primitive. The data exists — scattered across EHRs, claims systems, ADT feeds, and care management notes. The structural insight is that unifying it into (state, action, next_state, outcome) tuples creates a flywheel that no point solution can replicate.
+        </div>
+
+        <p>Yann LeCun's new venture AMI Labs, launched January 2026, confirms the timing. The CEO came directly from Nabla, a health AI startup, and has stated AMI will target healthcare as a first vertical for world models. LeCun's own critique of LLMs is directly relevant: an agentic system that takes actions in the world cannot work reliably unless it has a world model to predict the consequences of those actions.</p>
+
+        <blockquote>Every VBC deployment generates the exact data format that trains better planning models. No other healthcare domain produces this data at this density and structure.</blockquote>
+
+        <h2>Four forces, one conclusion</h2>
+
+        <p>The reason this company should exist <em>now</em> — and not three years ago or three years from now — is the convergence of four independent forces:</p>
+        <p><strong>TEFCA is building the perception layer.</strong> 72,000+ organizations connected. 474 million documents exchanged. For the first time, care coordination systems can access clinical data across organizational boundaries at scale. The sensor array is coming online.</p>
+        <p><strong>CMS-0057 is a regulatory forcing function.</strong> By January 2027, every Medicare Advantage organization and Medicaid program must expose FHIR-based APIs for provider access, payer-to-payer exchange, and prior authorization. This isn't optional. It's a mandate that creates the data infrastructure VBC operating systems need.</p>
+        <p><strong>The workforce crisis makes autonomy non-optional.</strong> A projected shortage of 141,160 physicians by 2038. Over 500,000 nurses short today. 100 million Americans without a primary care provider. And Medicaid cuts of $964 billion over ten years are pushing safety-net systems toward VBC as a survival strategy. The math doesn't work without autonomous care coordination.</p>
+        <p><strong>ACO economics are proven.</strong> 75% of MSSP ACOs earned shared savings in 2024 — the highest rate ever. $6.6 billion in gross savings. The business model works. What's missing is the infrastructure to scale it beyond the best-resourced systems.</p>
+
+        <div class="section-divider">&middot; &middot; &middot;</div>
+
+        <h2>A description of the present, stated clearly for the first time</h2>
+
+        <p>The strongest founder theses share one quality: they make the company feel like a discovery, not an invention. Stripe didn't invent online payments — it discovered that the internet's GDP was being throttled by friction invisible to everyone except the people trying to build on it. Rippling didn't invent HR software — it discovered that the employee graph made every business system compounding.</p>
+        <p>The autonomous systems architecture for care coordination isn't a novel idea imposed on healthcare. It's the pattern that's already emerging — in Waymark's reinforcement learning research, in AMI Labs targeting healthcare as a first vertical, in the perception→planning→controls mapping that anyone who's built autonomous systems can see once it's pointed out. The insight is that <strong>value-based care generates exactly the right data structure</strong> — causally structured (state, action, next_state, outcome) tuples — <strong>to train world models for care coordination.</strong></p>
+        <p>The regulatory convergence is creating the perception layer. The workforce crisis is creating the demand for the controls layer. And the ACO performance data proves the economic model works.</p>
+        <p>The self-driving stack for healthcare isn't a prediction. It's a description of the present — stated clearly, perhaps, for the first time.</p>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <span>&copy; 2026 Kazuki</span>
+      <span>San Francisco</span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
