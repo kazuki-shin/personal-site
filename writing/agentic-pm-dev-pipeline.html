@@ -212,9 +212,16 @@
           <figcaption>The two-session architecture. The PM session creates structured specs; the dev session consumes them autonomously. Linear is the only interface between the two.</figcaption>
         </figure>
 
+        <p>This is the dev session's interface — Cline Kanban. Each card is a task with its own terminal and isolated git worktree. Blue lines are dependency chains. When a card finishes, its dependents auto-start. The Review column shows a completed agent ready for me to commit or open a PR.</p>
+
+        <figure class="post-figure">
+          <img src="img/cline-kanban.png" alt="Cline Kanban board showing Backlog, In Progress, and Review columns with dependency arrows between cards and an agent completing a task with Commit and Open PR buttons">
+          <figcaption>Cline Kanban — the dev session's command center. Each card runs an agent in its own worktree. Dependency arrows chain tasks together.</figcaption>
+        </figure>
+
         <figure class="post-figure">
           <img src="img/linear-board.png" alt="Linear board showing 18 tickets organized by status — Backlog, In Progress, Done — with dependency links visible between cards">
-          <figcaption>The Linear board mid-sprint on Day 3. Tickets flow left to right as agents pick them up. Dependency links between cards control execution order.</figcaption>
+          <figcaption>The Linear board mid-sprint on Day 3. Tickets flow left to right as agents pick them up.</figcaption>
         </figure>
 
         <h2>What this looks like in practice</h2>
@@ -330,9 +337,21 @@
 
         <h2>Where this goes</h2>
 
-        <p>Three days, one person, 25,000 lines. That's today, with a pipeline I built in a few weeks with off-the-shelf tools. The constraint right now is me — I can only review PRs so fast, and I can only hold so many product threads in my head at once. But the tools are getting better on a weekly cadence. Boris Cherny, who built Claude Code, recommends 3-5 parallel worktrees. I ran 2 tracks. Gastown, Steve Yegge's orchestrator, runs 20-30. The ceiling is rising fast.</p>
+        <p>Three days, one person, 25,000 lines. That's today, with a pipeline I stitched together in a few weeks. And I'm not the only one building this way. Vibe Kanban, the YC-backed orchestrator with 14,000+ GitHub stars, gives you a full kanban UI with diff review built into each card. Gastown, Steve Yegge's framework, runs 20-30 parallel agents with a "Mayor" that coordinates them and an immutable decision log he calls "beads." Conductor wraps Claude Code in a native Mac app with agent roles — Researcher, Builder, Reviewer — and four coordination patterns. Claude Code itself now has native Agent Teams, experimental but shipping. The ecosystem is exploding because everyone hit the same wall: one agent is fast, but orchestrating many is where the real leverage is.</p>
 
-        <p>Here's what I think the next twelve months look like. The PM agent gets good enough that I check in twice a day instead of staying in the conversation. The dev agents get reliable enough that I batch-review PRs instead of watching them land. The handoff between PM and dev becomes fully automated — ticket created, agent assigned, PR opened, CI green, merged — with me as an async reviewer who intervenes when something looks wrong. A single founder ships what used to require a ten-person team. Not because the code is simpler. Because the coordination cost collapsed.</p>
+        <figure class="post-figure">
+          <img src="img/vibe-kanban-overview.png" alt="Vibe Kanban interface showing a kanban board with task columns on the left and an active Claude agent workspace on the right, with task cards flowing through To Do, In Progress, In Review, and Done">
+          <figcaption>Vibe Kanban — one of several orchestrators emerging in 2026. Kanban board on the left, live agent workspace on the right. Each card is an agent with its own worktree.</figcaption>
+        </figure>
+
+        <figure class="post-figure">
+          <img src="img/vibe-kanban-workspace.png" alt="Vibe Kanban workspace view showing agent output with markdown rendering on the left and a full code diff on the right, with green additions and red deletions">
+          <figcaption>The workspace view: agent output on the left, live code diff on the right. Review without leaving the board.</figcaption>
+        </figure>
+
+        <p>The constraint right now is me — I can only review PRs so fast, and I can only hold so many product threads in my head at once. Boris Cherny, who built Claude Code, recommends 3-5 parallel worktrees. I ran 2 tracks this sprint. The ceiling is rising every week.</p>
+
+        <p>Here's what the next twelve months look like. The PM agent gets good enough that I check in twice a day instead of staying in the conversation. The dev agents get reliable enough that I batch-review PRs instead of watching them land. The handoff becomes fully automated — ticket created, agent assigned, PR opened, CI green, merged — with me as an async reviewer who intervenes only when something looks wrong. One founder, shipping what used to take a ten-person team. Not because the code got simpler. Because the coordination cost collapsed.</p>
 
         <p>The skill that matters now is <em>management</em> — speccing work, structuring dependencies, reviewing output, maintaining quality across a fleet of agents. The founders who learn to manage machines will build faster than the ones still trying to be the machine. The bottleneck moved. Move with it.</p>
 
