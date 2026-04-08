@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How I Shipped 25,000 Lines of Code in 3 Days With Zero Manual Coding — Kazuki</title>
-  <meta name="description" content="An agentic PM + dev pipeline that turns product decisions into deployed features — without a human writing a single line of code.">
+  <meta name="description" content="I ran two AI sessions in parallel — one as PM, one as dev team — and shipped a full product in a weekend. Here's the architecture, what broke, and what it means for building software.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
@@ -47,6 +47,22 @@
       color: var(--color-text-tertiary);
       margin-top: 0.25rem;
     }
+    .post-figure img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--color-border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .aside-note {
+      border-left: 3px solid #FAAC68;
+      background: #FDFBF7;
+      padding: 1rem 1.25rem;
+      margin: 2rem 0;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
     @media (max-width: 768px) {
       .post-figure.wide { margin-left: -1.25rem; margin-right: -1.25rem; }
       .metric-callout { flex-wrap: wrap; gap: 1rem; }
@@ -74,10 +90,12 @@
       <a href="../" class="post-page-back">Back to home</a>
       <div class="post-page-date">April 2026</div>
       <h1>How I Shipped 25,000 Lines of Code in 3 Days With Zero Manual Coding</h1>
-      <p class="post-page-subtitle">An agentic PM + dev pipeline that turns product decisions into deployed features — without a human writing a single line.</p>
+      <p class="post-page-subtitle">I ran two AI sessions in parallel — one as PM, one as dev team — and shipped a full product in a weekend. Here's the architecture, what broke, and what it means for building software.</p>
       <div class="post-page-body">
 
-        <p>Last week I shipped 25,000 lines of production code across 39 tickets in three days. I didn't write a single line myself. Not because I couldn't, but because the bottleneck in software has shifted. Writing code is now the easiest part of building a product. The hard part is deciding <em>what</em> to build, specifying it precisely enough that a machine can execute, and reviewing the output. I built a pipeline that attacks this new bottleneck directly — a two-session architecture where one AI acts as my PM and another acts as my engineering team, connected by a project management tool that serves as the handoff layer.</p>
+        <p>On Tuesday afternoon I opened a doc with 19 pieces of team feedback about our product. Clinicians hated the post-call workflow. The voice agent sounded wrong. Cards couldn't be reordered. I sat down with one AI session and spent an hour turning that feedback into architecture decisions. By 3pm, 18 tickets were in Linear with dependency chains. By 3:01pm, a second AI session had picked them up, spun out agents into parallel git worktrees, and started building. By 6pm, eight features were live on staging — including a 1,187-line dashboard panel I never touched. I reviewed the PRs, merged them, and went to dinner.</p>
+
+        <p>Over three days, this pipeline shipped 25,000 lines across 39 tickets. I wrote none of the code. I wrote every spec.</p>
 
         <div class="metric-callout">
           <div class="metric">
@@ -100,9 +118,9 @@
 
         <h2>The architecture</h2>
 
-        <p>The system runs as two separate AI sessions with completely different roles, connected through Linear as the single source of truth. On one side is the PM session — an interactive conversation with Claude Code where I discuss product direction, debate UX trade-offs, and work through the shape of features. This session doesn't write code. It writes <em>tickets</em>: detailed specs with file paths, acceptance criteria, and dependency chains, pushed directly into Linear. On the other side is the dev session — an autonomous agent running Cline in kanban mode that reads tickets from Linear, spawns sub-agents in isolated git worktrees, builds features in parallel, runs its own code review, and ships pull requests. I never touch the dev session directly. It just watches the board and works.</p>
+        <p>The PM session is an interactive Claude Code conversation where I talk through product direction. It doesn't write code. It writes <em>tickets</em> — specs with file paths, line numbers, acceptance criteria, dependency chains — and pushes them into Linear. The dev session is a separate agent running Cline in kanban mode. It pulls tickets from Linear, spins up sub-agents in isolated git worktrees, and ships PRs. I never interact with the dev session. It watches the board and executes.</p>
 
-        <p>The critical insight is the separation. The PM session holds the full product context — user research, design rationale, system architecture — without being polluted by implementation details. The dev session holds the full codebase context without being distracted by product debates. Linear sits between them as a clean interface: structured data in, structured data out. My role collapses to two things: I am the product owner who shapes decisions in the PM session, and I am the QA reviewer who approves pull requests from the dev session. One human, two functions, an entire engineering pipeline between them.</p>
+        <p>The separation matters because context windows have a carrying capacity. When I tried running PM and dev in the same session, the product conversation degraded as implementation details piled up. The PM started suggesting code patterns instead of questioning whether the feature was right. Two sessions means the PM holds the full product context — user research, design rationale, architecture — and the dev holds the full codebase. Linear sits between them. I make decisions on one side and review PRs on the other.</p>
 
         <figure class="post-figure wide">
           <svg viewBox="0 0 740 520" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
@@ -194,13 +212,26 @@
           <figcaption>The two-session architecture. The PM session creates structured specs; the dev session consumes them autonomously. Linear is the only interface between the two.</figcaption>
         </figure>
 
+        <figure class="post-figure">
+          <img src="img/linear-board.png" alt="Linear board showing 18 tickets organized by status — Backlog, In Progress, Done — with dependency links visible between cards">
+          <figcaption>The Linear board mid-sprint on Day 3. Tickets flow left to right as agents pick them up. Dependency links between cards control execution order.</figcaption>
+        </figure>
+
         <h2>What this looks like in practice</h2>
 
-        <p>The three days followed a natural arc. Day one was infrastructure and integrations — the kind of foundational work that has to happen before anything user-facing can ship. The PM session and I mapped out the system architecture, identified which third-party services needed to be wired up, and wrote tickets for each integration endpoint. The dev agents picked them off the board and built them in parallel across isolated worktrees. By end of day, the backend skeleton was standing.</p>
+        <p>Day one: infrastructure. OAuth integrations, CI pipeline, test harnesses, API clients. I talked through the system boundaries with the PM session; it wrote a ticket for each one. Dev agents built them in parallel — each in its own worktree, no merge conflicts, no coordination overhead. 38 commits by midnight. Day two: stabilize and release. Bugs from the rapid build got triaged into fix tickets with exact file paths and line numbers. When you tell an agent precisely where the problem is, it doesn't waste half its context window hunting.</p>
 
-        <p>Day two was stabilization and release. The PM session triaged bugs that surfaced from day one's rapid build, prioritized them by severity, and wrote fix tickets with exact file paths and line numbers where the problems lived. The dev agents turned those around fast because the specs were precise — no ambiguity, no back-and-forth. We shipped a working release by evening.</p>
+        <figure class="post-figure">
+          <img src="img/pm-session.png" alt="Claude Code terminal showing an interactive PM conversation — discussing UX architecture for a slide-over panel, then creating a Linear ticket with file paths and acceptance criteria">
+          <figcaption>The PM session in action. I describe what I want at a product level; it writes implementation specs with file paths, line numbers, and acceptance criteria, then pushes them to Linear.</figcaption>
+        </figure>
 
-        <p>Day three is where the pipeline really showed its leverage. Our team had accumulated a batch of product feedback — feature requests, UX complaints, workflow gaps. I sat with the PM session for about an hour, working through the feedback and designing a new UX architecture to address it. The PM session then decomposed that architecture into 18 tickets with dependency chains, pushed them all to Linear, and the dev agents started executing immediately. Two parallel tracks ran simultaneously: one building the voice and configuration features, another building a new UI dashboard. The biggest single deliverable was a 1,187-line slide-over panel — I described what it should do in the ticket, and the agent built the entire thing. The dependency chaining meant that when one task finished, its downstream tasks auto-started without any human intervention.</p>
+        <p>Day three is where it got interesting. We'd accumulated 19 pieces of product feedback — UX complaints, feature requests, workflow gaps. I spent an hour with the PM session turning that feedback into a new UX architecture: a slide-over panel to replace page navigation, a restructured scripts system, drag-and-drop kanban reordering. The PM session decomposed the architecture into 18 tickets with dependency chains and pushed them to Linear. Dev agents started immediately — two tracks in parallel, voice and configuration on one, UI and dashboard on the other. The biggest deliverable was a 1,187-line slide-over panel with four tabs. I described the behavior in the ticket. The agent read the existing 1,700-line calls page, extracted the relevant sections into a new component, wired up tab switching and animation, and opened a PR with passing tests. I reviewed the diff, approved it, and moved on. The whole feature took about 40 minutes from ticket to merged PR.</p>
+
+        <figure class="post-figure">
+          <img src="img/github-prs.png" alt="GitHub pull requests list showing multiple open PRs from agent worktrees, each targeting the dev branch, with green CI checks">
+          <figcaption>PRs flowing in from parallel agent worktrees. Each one targets the dev branch, runs CI, and waits for my review. On a busy day, I'm reviewing PRs faster than I can read the diffs.</figcaption>
+        </figure>
 
         <figure class="post-figure wide">
           <svg viewBox="0 0 740 300" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
@@ -289,17 +320,21 @@
 
         <h2>What I learned</h2>
 
-        <p>Ticket quality determines agent quality. This is the single most important lesson. The dev agents that produced clean, correct code on the first pass were the ones that received tickets with specific file paths, line numbers pointing to relevant existing code, and unambiguous acceptance criteria. The agents that struggled got vague tickets. If you're running a pipeline like this, spend 80% of your PM time on the specs. The writing <em>is</em> the work.</p>
+        <p>The agents that shipped clean code on the first pass got tickets with file paths, line numbers into existing code, and concrete acceptance criteria. The agents that flailed got vague descriptions and burned their context window exploring the codebase. Ticket quality <em>is</em> agent quality. I spend about 80% of my time writing specs now. The code writes itself. The specs don't.</p>
 
-        <p>Dependency chaining is the multiplier that makes this more than a parlor trick. Without it, tasks run serially — each one waiting for a human to notice the previous one finished and manually assign the next. With dependency chains defined in Linear, two tracks can execute simultaneously and downstream tasks auto-start the moment their predecessors complete. The throughput difference between serial and parallel execution across 18 tickets is the difference between a day and a week.</p>
+        <p>Dependency chaining turned a serial queue into parallel execution. Without it, I'd finish one task, notice, then manually kick off the next. With chains defined in Linear, Track A and Track B ran simultaneously, and downstream tasks fired the moment their prerequisites landed. Eighteen tickets across two parallel tracks took about three hours of wall-clock time. Sequentially, that's a week.</p>
 
-        <p>Keep individual tasks under roughly 500 lines of code. Long-running agents accumulate context until they start to degrade — hallucinating function signatures, losing track of the file they're editing, repeating work they already did. The 1,187-line slide-over panel was at the absolute upper limit of what a single agent pass could handle cleanly. Smaller, well-scoped tasks produce dramatically more reliable output.</p>
+        <p>There's a ceiling around 500 lines per task. Beyond that, agents start to degrade — hallucinating function signatures, losing track of which file they're editing, redoing work they already finished. The 1,187-line slide-over panel worked, but it was the upper bound. Anything bigger needs to be split into chained subtasks with commit checkpoints between them.</p>
 
-        <p>Separating PM and dev into distinct sessions is not just an organizational preference — it's architecturally necessary. When I tried running both in the same context early on, implementation details crowded out product thinking. The PM session would start suggesting code patterns instead of debating whether the feature was right. The dev session would start questioning product decisions instead of building. Separate contexts mean each session can go deep on its own concerns without interference.</p>
+        <p>The weakest link is the handoff. Every manual step between "PM creates ticket" and "dev picks it up" — copying descriptions, reformatting specs, re-tagging priorities — loses information. Both sessions read and write Linear's API directly, which eliminates most of the loss. But ticket IDs still get mistyped. Statuses go stale. The handoff is where I'm losing the most throughput, and it's the next thing I'm automating away.</p>
 
-        <p>Automate the handoff. The gap between "PM creates ticket" and "dev picks it up" is the weakest link in the entire pipeline. Every manual step in that gap — copying descriptions, reformatting specs, tagging priorities — degrades information and adds latency. The PM session writes directly to Linear's API. The dev session reads directly from Linear's API. No human in the middle means no information loss in the middle.</p>
+        <h2>Where this goes</h2>
 
-        <p>The bottleneck has moved. Writing code is now the cheapest, fastest part of building software. The hard part is knowing what to build, specifying it precisely enough that an agent can execute without ambiguity, and reviewing the result with enough taste to catch what the machine got wrong. The role of the founder-engineer is becoming the role of the founder-PM — and the agents are the engineering team.</p>
+        <p>Three days, one person, 25,000 lines. That's today, with a pipeline I built in a few weeks with off-the-shelf tools. The constraint right now is me — I can only review PRs so fast, and I can only hold so many product threads in my head at once. But the tools are getting better on a weekly cadence. Boris Cherny, who built Claude Code, recommends 3-5 parallel worktrees. I ran 2 tracks. Gastown, Steve Yegge's orchestrator, runs 20-30. The ceiling is rising fast.</p>
+
+        <p>Here's what I think the next twelve months look like. The PM agent gets good enough that I check in twice a day instead of staying in the conversation. The dev agents get reliable enough that I batch-review PRs instead of watching them land. The handoff between PM and dev becomes fully automated — ticket created, agent assigned, PR opened, CI green, merged — with me as an async reviewer who intervenes when something looks wrong. A single founder ships what used to require a ten-person team. Not because the code is simpler. Because the coordination cost collapsed.</p>
+
+        <p>The skill that matters now is <em>management</em> — speccing work, structuring dependencies, reviewing output, maintaining quality across a fleet of agents. The founders who learn to manage machines will build faster than the ones still trying to be the machine. The bottleneck moved. Move with it.</p>
 
       </div>
     </div>
