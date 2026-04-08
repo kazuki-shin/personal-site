@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How I Shipped 25,000 Lines of Code in 3 Days With Zero Manual Coding — Kazuki</title>
+  <meta name="description" content="An agentic PM + dev pipeline that turns product decisions into deployed features — without a human writing a single line of code.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .post-figure { margin: 2.5rem 0; }
+    .post-figure svg { width: 100%; height: auto; display: block; }
+    .post-figure figcaption {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      color: var(--color-text-tertiary);
+      margin-top: 0.75rem;
+      text-align: center;
+      font-style: italic;
+    }
+    .post-figure.wide {
+      margin-left: -2rem;
+      margin-right: -2rem;
+    }
+    .metric-callout {
+      display: flex;
+      gap: 2rem;
+      padding: 1.5rem 2rem;
+      background: var(--color-hover);
+      border-radius: 8px;
+      margin: 2rem 0;
+      justify-content: center;
+    }
+    .metric-callout .metric { text-align: center; }
+    .metric-callout .metric-value {
+      font-family: var(--font-sans);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--color-text);
+      letter-spacing: -0.03em;
+    }
+    .metric-callout .metric-label {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      color: var(--color-text-tertiary);
+      margin-top: 0.25rem;
+    }
+    @media (max-width: 768px) {
+      .post-figure.wide { margin-left: -1.25rem; margin-right: -1.25rem; }
+      .metric-callout { flex-wrap: wrap; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Kazuki</a>
+      <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../#writing">Writing</a></li>
+        <li><a href="../#photography">Photography</a></li>
+        <li><a href="../#work">Work</a></li>
+        <li><a href="../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="post-page">
+    <div class="container">
+      <a href="../" class="post-page-back">Back to home</a>
+      <div class="post-page-date">April 2026</div>
+      <h1>How I Shipped 25,000 Lines of Code in 3 Days With Zero Manual Coding</h1>
+      <p class="post-page-subtitle">An agentic PM + dev pipeline that turns product decisions into deployed features — without a human writing a single line.</p>
+      <div class="post-page-body">
+
+        <p>Last week I shipped 25,000 lines of production code across 39 tickets in three days. I didn't write a single line myself. Not because I couldn't, but because the bottleneck in software has shifted. Writing code is now the easiest part of building a product. The hard part is deciding <em>what</em> to build, specifying it precisely enough that a machine can execute, and reviewing the output. I built a pipeline that attacks this new bottleneck directly — a two-session architecture where one AI acts as my PM and another acts as my engineering team, connected by a project management tool that serves as the handoff layer.</p>
+
+        <div class="metric-callout">
+          <div class="metric">
+            <div class="metric-value">68</div>
+            <div class="metric-label">Commits</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">25K+</div>
+            <div class="metric-label">Lines</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">39</div>
+            <div class="metric-label">Tickets</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">3</div>
+            <div class="metric-label">Days</div>
+          </div>
+        </div>
+
+        <h2>The architecture</h2>
+
+        <p>The system runs as two separate AI sessions with completely different roles, connected through Linear as the single source of truth. On one side is the PM session — an interactive conversation with Claude Code where I discuss product direction, debate UX trade-offs, and work through the shape of features. This session doesn't write code. It writes <em>tickets</em>: detailed specs with file paths, acceptance criteria, and dependency chains, pushed directly into Linear. On the other side is the dev session — an autonomous agent running Cline in kanban mode that reads tickets from Linear, spawns sub-agents in isolated git worktrees, builds features in parallel, runs its own code review, and ships pull requests. I never touch the dev session directly. It just watches the board and works.</p>
+
+        <p>The critical insight is the separation. The PM session holds the full product context — user research, design rationale, system architecture — without being polluted by implementation details. The dev session holds the full codebase context without being distracted by product debates. Linear sits between them as a clean interface: structured data in, structured data out. My role collapses to two things: I am the product owner who shapes decisions in the PM session, and I am the QA reviewer who approves pull requests from the dev session. One human, two functions, an entire engineering pipeline between them.</p>
+
+        <figure class="post-figure wide">
+          <svg viewBox="0 0 740 520" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+            <defs>
+              <marker id="arrow-teal" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="10" markerHeight="7" orient="auto-start-auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#19333A"/>
+              </marker>
+              <marker id="arrow-orange" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="10" markerHeight="7" orient="auto-start-auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#FAAC68"/>
+              </marker>
+              <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+                <feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#19333A" flood-opacity="0.08"/>
+              </filter>
+            </defs>
+
+            <!-- 1 Human label -->
+            <rect x="290" y="8" width="160" height="28" rx="14" fill="#FAAC68" opacity="0.15"/>
+            <text x="370" y="27" text-anchor="middle" font-size="11" font-weight="600" fill="#19333A" letter-spacing="0.05em">1 HUMAN — PM + QA</text>
+
+            <!-- PM Session box -->
+            <rect x="30" y="56" width="260" height="170" rx="10" fill="#19333A" filter="url(#shadow)"/>
+            <text x="160" y="82" text-anchor="middle" font-size="13" font-weight="600" fill="#FFFFFF" letter-spacing="0.03em">PM Session</text>
+            <text x="160" y="100" text-anchor="middle" font-size="10" fill="#FAAC68">Claude Code CLI — Interactive</text>
+            <line x1="60" y1="112" x2="260" y2="112" stroke="#2E4E55" stroke-width="1"/>
+            <text x="55" y="132" font-size="10.5" fill="#D1E4F2">Product decisions</text>
+            <text x="55" y="150" font-size="10.5" fill="#D1E4F2">UX architecture</text>
+            <text x="55" y="168" font-size="10.5" fill="#D1E4F2">Ticket specs + acceptance criteria</text>
+            <text x="55" y="186" font-size="10.5" fill="#D1E4F2">Linear management</text>
+
+            <!-- Dev Session box -->
+            <rect x="450" y="56" width="260" height="170" rx="10" fill="#19333A" filter="url(#shadow)"/>
+            <text x="580" y="82" text-anchor="middle" font-size="13" font-weight="600" fill="#FFFFFF" letter-spacing="0.03em">Dev Session</text>
+            <text x="580" y="100" text-anchor="middle" font-size="10" fill="#FAAC68">Cline Kanban CLI — Autonomous</text>
+            <line x1="480" y1="112" x2="680" y2="112" stroke="#2E4E55" stroke-width="1"/>
+            <text x="475" y="132" font-size="10.5" fill="#D1E4F2">Reads tickets from Linear</text>
+            <text x="475" y="150" font-size="10.5" fill="#D1E4F2">Spawns sub-agents</text>
+            <text x="475" y="168" font-size="10.5" fill="#D1E4F2">Worktree isolation</text>
+            <text x="475" y="186" font-size="10.5" fill="#D1E4F2">Auto-review + ship PRs</text>
+
+            <!-- Linear handoff -->
+            <rect x="315" y="110" width="110" height="56" rx="28" fill="#FAAC68" filter="url(#shadow)"/>
+            <text x="370" y="135" text-anchor="middle" font-size="13" font-weight="600" fill="#19333A">Linear</text>
+            <text x="370" y="152" text-anchor="middle" font-size="9" fill="#19333A" opacity="0.7">handoff layer</text>
+
+            <!-- PM → Linear arrow -->
+            <line x1="290" y1="138" x2="313" y2="138" stroke="#19333A" stroke-width="1.5" marker-end="url(#arrow-teal)"/>
+
+            <!-- Linear → Dev arrow -->
+            <line x1="425" y1="138" x2="448" y2="138" stroke="#19333A" stroke-width="1.5" marker-end="url(#arrow-teal)"/>
+
+            <!-- Worktree section -->
+            <text x="370" y="270" text-anchor="middle" font-size="10" font-weight="600" fill="#19333A" letter-spacing="0.06em" text-transform="uppercase">PARALLEL WORKTREES</text>
+
+            <!-- Worktree boxes -->
+            <rect x="100" y="288" width="150" height="40" rx="6" fill="#F8F6ED" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="175" y="312" text-anchor="middle" font-size="10" fill="#19333A" font-weight="500">worktree-KGO-439</text>
+
+            <rect x="295" y="288" width="150" height="40" rx="6" fill="#F8F6ED" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="370" y="312" text-anchor="middle" font-size="10" fill="#19333A" font-weight="500">worktree-KGO-441</text>
+
+            <rect x="490" y="288" width="150" height="40" rx="6" fill="#F8F6ED" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="565" y="312" text-anchor="middle" font-size="10" fill="#19333A" font-weight="500">worktree-KGO-443</text>
+
+            <!-- dev branch -->
+            <rect x="250" y="370" width="240" height="36" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="370" y="393" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">dev</text>
+
+            <!-- Worktree → dev arrows -->
+            <line x1="175" y1="328" x2="175" y2="356" stroke="#D0D0CC" stroke-width="1.2"/>
+            <line x1="175" y1="356" x2="310" y2="356" stroke="#D0D0CC" stroke-width="1.2"/>
+            <line x1="310" y1="356" x2="310" y2="368" stroke="#D0D0CC" stroke-width="1.2" marker-end="url(#arrow-teal)"/>
+
+            <line x1="370" y1="328" x2="370" y2="368" stroke="#D0D0CC" stroke-width="1.2" marker-end="url(#arrow-teal)"/>
+
+            <line x1="565" y1="328" x2="565" y2="356" stroke="#D0D0CC" stroke-width="1.2"/>
+            <line x1="565" y1="356" x2="430" y2="356" stroke="#D0D0CC" stroke-width="1.2"/>
+            <line x1="430" y1="356" x2="430" y2="368" stroke="#D0D0CC" stroke-width="1.2" marker-end="url(#arrow-teal)"/>
+
+            <!-- master branch -->
+            <rect x="250" y="440" width="240" height="36" rx="6" fill="#EEF7E2" stroke="#19333A" stroke-width="1"/>
+            <text x="370" y="463" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">master</text>
+
+            <!-- dev → master arrow -->
+            <line x1="370" y1="406" x2="370" y2="438" stroke="#19333A" stroke-width="1.5" marker-end="url(#arrow-teal)"/>
+
+            <!-- Labels for merge -->
+            <text x="395" y="425" font-size="9" fill="#9B9B9B">merge after QA</text>
+          </svg>
+          <figcaption>The two-session architecture. The PM session creates structured specs; the dev session consumes them autonomously. Linear is the only interface between the two.</figcaption>
+        </figure>
+
+        <h2>What this looks like in practice</h2>
+
+        <p>The three days followed a natural arc. Day one was infrastructure and integrations — the kind of foundational work that has to happen before anything user-facing can ship. The PM session and I mapped out the system architecture, identified which third-party services needed to be wired up, and wrote tickets for each integration endpoint. The dev agents picked them off the board and built them in parallel across isolated worktrees. By end of day, the backend skeleton was standing.</p>
+
+        <p>Day two was stabilization and release. The PM session triaged bugs that surfaced from day one's rapid build, prioritized them by severity, and wrote fix tickets with exact file paths and line numbers where the problems lived. The dev agents turned those around fast because the specs were precise — no ambiguity, no back-and-forth. We shipped a working release by evening.</p>
+
+        <p>Day three is where the pipeline really showed its leverage. Our team had accumulated a batch of product feedback — feature requests, UX complaints, workflow gaps. I sat with the PM session for about an hour, working through the feedback and designing a new UX architecture to address it. The PM session then decomposed that architecture into 18 tickets with dependency chains, pushed them all to Linear, and the dev agents started executing immediately. Two parallel tracks ran simultaneously: one building the voice and configuration features, another building a new UI dashboard. The biggest single deliverable was a 1,187-line slide-over panel — I described what it should do in the ticket, and the agent built the entire thing. The dependency chaining meant that when one task finished, its downstream tasks auto-started without any human intervention.</p>
+
+        <figure class="post-figure wide">
+          <svg viewBox="0 0 740 300" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+            <defs>
+              <marker id="dep-arrow" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="10" markerHeight="7" orient="auto-start-auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#FAAC68"/>
+              </marker>
+              <marker id="flow-arrow" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="10" markerHeight="7" orient="auto-start-auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#19333A"/>
+              </marker>
+            </defs>
+
+            <!-- Time axis -->
+            <line x1="60" y1="25" x2="700" y2="25" stroke="#D0D0CC" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="380" y="18" text-anchor="middle" font-size="10" fill="#9B9B9B" letter-spacing="0.06em">TIME</text>
+            <polygon points="700,22 710,25 700,28" fill="#D0D0CC"/>
+
+            <!-- Track A label -->
+            <text x="30" y="95" text-anchor="middle" font-size="9" font-weight="600" fill="#19333A" letter-spacing="0.05em" transform="rotate(-90, 30, 95)">VOICE + CONFIG</text>
+
+            <!-- Track A boxes -->
+            <rect x="80" y="60" width="130" height="46" rx="7" fill="#19333A"/>
+            <text x="145" y="80" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">KGO-443</text>
+            <text x="145" y="95" text-anchor="middle" font-size="9" fill="#D1E4F2">Voice integration</text>
+
+            <rect x="235" y="60" width="130" height="46" rx="7" fill="#19333A"/>
+            <text x="300" y="80" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">KGO-444</text>
+            <text x="300" y="95" text-anchor="middle" font-size="9" fill="#D1E4F2">Config service</text>
+
+            <rect x="390" y="60" width="130" height="46" rx="7" fill="#19333A"/>
+            <text x="455" y="80" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">KGO-445</text>
+            <text x="455" y="95" text-anchor="middle" font-size="9" fill="#D1E4F2">Settings UI</text>
+
+            <rect x="545" y="60" width="130" height="46" rx="7" fill="#19333A"/>
+            <text x="610" y="80" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">KGO-446</text>
+            <text x="610" y="95" text-anchor="middle" font-size="9" fill="#D1E4F2">Voice testing</text>
+
+            <!-- Track A arrows -->
+            <line x1="210" y1="83" x2="233" y2="83" stroke="#19333A" stroke-width="1.5" marker-end="url(#flow-arrow)"/>
+            <line x1="365" y1="83" x2="388" y2="83" stroke="#19333A" stroke-width="1.5" marker-end="url(#flow-arrow)"/>
+            <line x1="520" y1="83" x2="543" y2="83" stroke="#19333A" stroke-width="1.5" marker-end="url(#flow-arrow)"/>
+
+            <!-- Parallel indicator -->
+            <rect x="340" y="130" width="60" height="22" rx="11" fill="#EEF7E2" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="370" y="145" text-anchor="middle" font-size="9" font-weight="500" fill="#19333A">parallel</text>
+
+            <!-- Track B label -->
+            <text x="30" y="210" text-anchor="middle" font-size="9" font-weight="600" fill="#19333A" letter-spacing="0.05em" transform="rotate(-90, 30, 210)">UI + DASHBOARD</text>
+
+            <!-- Track B boxes -->
+            <rect x="80" y="175" width="130" height="46" rx="7" fill="#19333A"/>
+            <text x="145" y="195" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">KGO-441</text>
+            <text x="145" y="210" text-anchor="middle" font-size="9" fill="#D1E4F2">Component lib</text>
+
+            <rect x="235" y="175" width="130" height="46" rx="7" fill="#19333A"/>
+            <text x="300" y="195" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">KGO-449</text>
+            <text x="300" y="210" text-anchor="middle" font-size="9" fill="#D1E4F2">Data layer</text>
+
+            <rect x="390" y="175" width="130" height="46" rx="7" fill="#19333A"/>
+            <text x="455" y="195" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">KGO-439</text>
+            <text x="455" y="210" text-anchor="middle" font-size="9" fill="#D1E4F2">Dashboard view</text>
+
+            <rect x="545" y="175" width="130" height="46" rx="7" fill="#19333A"/>
+            <text x="610" y="195" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">KGO-440</text>
+            <text x="610" y="210" text-anchor="middle" font-size="9" fill="#D1E4F2">Slide-over panel</text>
+
+            <!-- Track B arrows -->
+            <line x1="210" y1="198" x2="233" y2="198" stroke="#19333A" stroke-width="1.5" marker-end="url(#flow-arrow)"/>
+            <line x1="365" y1="198" x2="388" y2="198" stroke="#19333A" stroke-width="1.5" marker-end="url(#flow-arrow)"/>
+
+            <!-- Dependency arrow from KGO-439 to KGO-440 (orange) -->
+            <line x1="520" y1="198" x2="543" y2="198" stroke="#FAAC68" stroke-width="2" marker-end="url(#dep-arrow)"/>
+
+            <!-- Dependency callout -->
+            <text x="532" y="240" text-anchor="middle" font-size="8.5" fill="#FAAC68" font-weight="500">auto-started</text>
+            <text x="532" y="252" text-anchor="middle" font-size="8.5" fill="#FAAC68" font-weight="500">on completion</text>
+
+            <!-- Legend -->
+            <line x1="80" y1="280" x2="105" y2="280" stroke="#19333A" stroke-width="1.5"/>
+            <text x="112" y="284" font-size="9" fill="#9B9B9B">Sequential flow</text>
+            <line x1="220" y1="280" x2="245" y2="280" stroke="#FAAC68" stroke-width="2"/>
+            <text x="252" y="284" font-size="9" fill="#9B9B9B">Dependency trigger</text>
+          </svg>
+          <figcaption>Day 3's parallel execution. Two independent tracks ran simultaneously, with dependency arrows triggering downstream tasks automatically when predecessors completed.</figcaption>
+        </figure>
+
+        <h2>What I learned</h2>
+
+        <p>Ticket quality determines agent quality. This is the single most important lesson. The dev agents that produced clean, correct code on the first pass were the ones that received tickets with specific file paths, line numbers pointing to relevant existing code, and unambiguous acceptance criteria. The agents that struggled got vague tickets. If you're running a pipeline like this, spend 80% of your PM time on the specs. The writing <em>is</em> the work.</p>
+
+        <p>Dependency chaining is the multiplier that makes this more than a parlor trick. Without it, tasks run serially — each one waiting for a human to notice the previous one finished and manually assign the next. With dependency chains defined in Linear, two tracks can execute simultaneously and downstream tasks auto-start the moment their predecessors complete. The throughput difference between serial and parallel execution across 18 tickets is the difference between a day and a week.</p>
+
+        <p>Keep individual tasks under roughly 500 lines of code. Long-running agents accumulate context until they start to degrade — hallucinating function signatures, losing track of the file they're editing, repeating work they already did. The 1,187-line slide-over panel was at the absolute upper limit of what a single agent pass could handle cleanly. Smaller, well-scoped tasks produce dramatically more reliable output.</p>
+
+        <p>Separating PM and dev into distinct sessions is not just an organizational preference — it's architecturally necessary. When I tried running both in the same context early on, implementation details crowded out product thinking. The PM session would start suggesting code patterns instead of debating whether the feature was right. The dev session would start questioning product decisions instead of building. Separate contexts mean each session can go deep on its own concerns without interference.</p>
+
+        <p>Automate the handoff. The gap between "PM creates ticket" and "dev picks it up" is the weakest link in the entire pipeline. Every manual step in that gap — copying descriptions, reformatting specs, tagging priorities — degrades information and adds latency. The PM session writes directly to Linear's API. The dev session reads directly from Linear's API. No human in the middle means no information loss in the middle.</p>
+
+        <p>The bottleneck has moved. Writing code is now the cheapest, fastest part of building software. The hard part is knowing what to build, specifying it precisely enough that an agent can execute without ambiguity, and reviewing the result with enough taste to catch what the machine got wrong. The role of the founder-engineer is becoming the role of the founder-PM — and the agents are the engineering team.</p>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <span>&copy; 2026 Kazuki</span>
+      <span>San Francisco</span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
