@@ -141,6 +141,90 @@
 
         <p>There's a second-order effect here I didn't expect. Compare notes across buildings and you find the rules themselves bend. Pharmacies apply prior authorization requirements inconsistently, and how strictly they apply them tracks how much a given administrator pushes back. Which makes sense once you see it. If almost nobody pushes, then pushing is an exception you handle case by case instead of a policy you write down. The buildings that ask get treated differently from the buildings that don't, and most don't ask.</p>
 
+        <p>Underneath all of it is an incentive structure that points the wrong way at every step. Losing the money is free. No decisions, no work, same day. Getting it back takes five handoffs across four organizations, and exactly one of the parties involved has any money at stake.</p>
+
+        <figure class="post-figure wide">
+          <svg viewBox="0 0 740 448" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+            <defs>
+              <marker id="arw-d" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="9" markerHeight="7" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#19333A"/>
+              </marker>
+            </defs>
+
+            <text x="24" y="26" font-size="10.5" font-weight="600" fill="#9B9B9B" letter-spacing="0.09em">WHERE THE MONEY GOES</text>
+
+            <text x="24" y="56" font-size="10" font-weight="600" fill="#19333A" letter-spacing="0.06em">IF NOBODY DOES ANYTHING</text>
+
+            <rect x="24" y="68" width="196" height="46" rx="6" fill="#F8F6ED" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="122" y="96" text-anchor="middle" font-size="11.5" fill="#6B6B6B">Claim rejects</text>
+
+            <line x1="224" y1="91" x2="258" y2="91" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-d)"/>
+
+            <rect x="262" y="68" width="212" height="46" rx="6" fill="#F8F6ED" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="368" y="96" text-anchor="middle" font-size="11.5" fill="#6B6B6B">Charge moves to the facility</text>
+
+            <line x1="478" y1="91" x2="512" y2="91" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-d)"/>
+
+            <rect x="516" y="68" width="200" height="46" rx="6" fill="#FAAC68" stroke="#19333A" stroke-width="1.5"/>
+            <text x="616" y="96" text-anchor="middle" font-size="11.5" font-weight="600" fill="#19333A">Facility eats the cost</text>
+
+            <text x="24" y="134" font-size="9.5" fill="#6B6B6B">Automatic. Same day. Nobody has to do anything.</text>
+
+            <line x1="24" y1="154" x2="716" y2="154" stroke="#E8E8E4" stroke-width="1"/>
+
+            <text x="24" y="180" font-size="10" font-weight="600" fill="#19333A" letter-spacing="0.06em">TO GET IT BACK</text>
+
+            <rect x="24" y="192" width="124" height="78" rx="6" fill="#FAAC68" stroke="#19333A" stroke-width="1.5"/>
+            <text x="86" y="216" text-anchor="middle" font-size="11.5" font-weight="600" fill="#19333A">Facility</text>
+            <text x="86" y="233" text-anchor="middle" font-size="9" fill="#19333A" opacity="0.75">assembles packet</text>
+            <line x1="36" y1="243" x2="136" y2="243" stroke="#19333A" stroke-width="1" opacity="0.25"/>
+            <text x="86" y="259" text-anchor="middle" font-size="8.5" font-weight="600" fill="#19333A">loses all of it</text>
+
+            <line x1="152" y1="228" x2="162" y2="228" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-d)"/>
+
+            <rect x="166" y="192" width="124" height="78" rx="6" fill="#FFFFFF" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="228" y="216" text-anchor="middle" font-size="11.5" font-weight="600" fill="#19333A">Pharmacy</text>
+            <text x="228" y="233" text-anchor="middle" font-size="9" fill="#6B6B6B">submits it</text>
+            <line x1="178" y1="243" x2="278" y2="243" stroke="#E8E8E4" stroke-width="1"/>
+            <text x="228" y="259" text-anchor="middle" font-size="8.5" fill="#9B9B9B">already paid</text>
+
+            <line x1="294" y1="228" x2="304" y2="228" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-d)"/>
+
+            <rect x="308" y="192" width="124" height="78" rx="6" fill="#FFFFFF" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="370" y="216" text-anchor="middle" font-size="11.5" font-weight="600" fill="#19333A">Prescriber</text>
+            <text x="370" y="233" text-anchor="middle" font-size="9" fill="#6B6B6B">signs</text>
+            <line x1="320" y1="243" x2="420" y2="243" stroke="#E8E8E4" stroke-width="1"/>
+            <text x="370" y="259" text-anchor="middle" font-size="8.5" fill="#9B9B9B">no stake</text>
+
+            <line x1="436" y1="228" x2="446" y2="228" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-d)"/>
+
+            <rect x="450" y="192" width="124" height="78" rx="6" fill="#FFFFFF" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="512" y="216" text-anchor="middle" font-size="11.5" font-weight="600" fill="#19333A">Payer</text>
+            <text x="512" y="233" text-anchor="middle" font-size="9" fill="#6B6B6B">approves</text>
+            <line x1="462" y1="243" x2="562" y2="243" stroke="#E8E8E4" stroke-width="1"/>
+            <text x="512" y="259" text-anchor="middle" font-size="8.5" fill="#9B9B9B">pays if yes</text>
+
+            <line x1="578" y1="228" x2="588" y2="228" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-d)"/>
+
+            <rect x="592" y="192" width="124" height="78" rx="6" fill="#FFFFFF" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="654" y="216" text-anchor="middle" font-size="11.5" font-weight="600" fill="#19333A">Pharmacy</text>
+            <text x="654" y="233" text-anchor="middle" font-size="9" fill="#6B6B6B">reverses, rebills</text>
+            <line x1="604" y1="243" x2="704" y2="243" stroke="#E8E8E4" stroke-width="1"/>
+            <text x="654" y="259" text-anchor="middle" font-size="8.5" fill="#9B9B9B">gives it back</text>
+
+            <path d="M 654 270 V 288 H 370 V 302" fill="none" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-d)"/>
+
+            <rect x="270" y="306" width="200" height="42" rx="6" fill="#EEF7E2" stroke="#19333A" stroke-width="1"/>
+            <text x="370" y="332" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Credit posts</text>
+
+            <rect x="24" y="372" width="692" height="52" rx="8" fill="#F8F6ED" stroke="#FAAC68" stroke-width="1.5" stroke-dasharray="7,4"/>
+            <text x="370" y="403" text-anchor="middle" font-size="12.5" font-weight="600" fill="#19333A">The party losing the money is the only one that can't file.</text>
+          </svg>
+          <figcaption>Losing it takes no steps and happens by itself. Getting it back takes five, and only the first is done by someone with anything at stake.</figcaption>
+        </figure>
+
+        <p>The pharmacy is already being paid, so filing the authorization is work with no upside, and reversing the charge later is work that moves money out of its own pocket. The prescriber gets nothing for signing. The payer does better if it's never filed at all. And the facility, the only party that loses anything, is the one that can't file it.</p>
+
         <p>Once you have this shape in your head you start seeing it all over healthcare. Coverage that never gets verified before an admission. A Medicaid application sitting in a county queue. A discharge that stalls while two organizations each wait on the other. Everyone involved is competent inside their own walls and carries no responsibility past them.</p>
 
         <p>There's a structural reason for that, and it has to do with who buys software.</p>
