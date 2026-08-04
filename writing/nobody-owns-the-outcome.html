@@ -171,6 +171,67 @@
 
         <p>This is the general shape of the thing. Healthcare coordination breaks because the work spans multiple organizations, systems, and communication channels, and no one consistently owns the outcome. Pharmacy PA is a good example because you can watch the money leave.</p>
 
+        <figure class="post-figure wide">
+          <svg viewBox="0 0 740 420" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+            <defs>
+              <marker id="arw-a" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#19333A"/>
+              </marker>
+              <marker id="arw-a-light" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#9B9B9B"/>
+              </marker>
+            </defs>
+
+            <!-- the case -->
+            <rect x="250" y="20" width="240" height="50" rx="8" fill="#19333A"/>
+            <text x="370" y="42" text-anchor="middle" font-size="12.5" font-weight="600" fill="#FFFFFF">One outcome</text>
+            <text x="370" y="59" text-anchor="middle" font-size="10.5" fill="#FAAC68">no single organization can finish it</text>
+
+            <!-- fan out to counterparties -->
+            <path d="M 350 70 C 300 100, 130 100, 92 134" fill="none" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <path d="M 360 70 C 340 100, 250 100, 228 134" fill="none" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <path d="M 370 70 L 370 134" fill="none" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <path d="M 380 70 C 400 100, 490 100, 512 134" fill="none" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <path d="M 390 70 C 440 100, 610 100, 648 134" fill="none" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+
+            <!-- counterparties -->
+            <rect x="30" y="136" width="124" height="58" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="92" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Payer</text>
+            <text x="92" y="177" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">phone · portal</text>
+
+            <rect x="166" y="136" width="124" height="58" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="228" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Hospital</text>
+            <text x="228" y="177" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">fax · email</text>
+
+            <rect x="308" y="136" width="124" height="58" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="370" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Pharmacy</text>
+            <text x="370" y="177" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">portal · phone</text>
+
+            <rect x="450" y="136" width="124" height="58" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="512" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Family</text>
+            <text x="512" y="177" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">text · phone</text>
+
+            <rect x="586" y="136" width="124" height="58" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="648" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Agency</text>
+            <text x="648" y="177" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">fax · mail</text>
+
+            <!-- each drops work into the gap -->
+            <line x1="92" y1="196" x2="92" y2="248" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <line x1="228" y1="196" x2="228" y2="248" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <line x1="370" y1="196" x2="370" y2="248" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <line x1="512" y1="196" x2="512" y2="248" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <line x1="648" y1="196" x2="648" y2="248" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+
+            <!-- the gap -->
+            <rect x="30" y="256" width="680" height="140" rx="10" fill="#F8F6ED" stroke="#FAAC68" stroke-width="1.6" stroke-dasharray="7,4"/>
+            <text x="48" y="280" font-size="10.5" font-weight="600" fill="#9B9B9B" letter-spacing="0.09em">THE WORK BETWEEN</text>
+            <text x="370" y="313" text-anchor="middle" font-size="11.5" fill="#19333A">follow up · retry · switch channel · chase the deadline · escalate · document</text>
+            <text x="370" y="352" text-anchor="middle" font-size="18" font-weight="600" fill="#19333A">Owner: unassigned</text>
+            <text x="370" y="375" text-anchor="middle" font-size="10.5" fill="#6B6B6B">This is where cases stall.</text>
+          </svg>
+          <figcaption>Zoom out and pharmacy PA is one instance of this. Every organization is accountable for its own piece, and the work of holding the case together lands in between.</figcaption>
+        </figure>
+
         <h2>What we're building</h2>
 
         <p>Kaigo is a long-horizon case operator. You give it a case and it keeps working until it reaches the outcome, or until it comes back with a specific decision that needs a person.</p>
