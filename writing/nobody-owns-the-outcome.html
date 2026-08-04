@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nobody Owns the Outcome — Kazuki</title>
+  <meta name="description" content="Healthcare coordination doesn't break because the tasks are hard. It breaks because the work spans a dozen organizations and no one is accountable for the end. What we're building at Kaigo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .post-figure { margin: 2.5rem 0; }
+    .post-figure svg { width: 100%; height: auto; display: block; }
+    .post-figure figcaption {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      color: var(--color-text-tertiary);
+      margin-top: 0.75rem;
+      text-align: center;
+      font-style: italic;
+    }
+    .post-figure.wide {
+      margin-left: -2rem;
+      margin-right: -2rem;
+    }
+    .aside-note {
+      border-left: 3px solid #FAAC68;
+      background: #FDFBF7;
+      padding: 1rem 1.25rem;
+      margin: 2rem 0;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+    .post-page-body ul {
+      margin: 0 0 1.5rem 1.2rem;
+      padding: 0;
+    }
+    .post-page-body li { margin-bottom: 0.45rem; }
+    @media (max-width: 768px) {
+      .post-figure.wide { margin-left: -1.25rem; margin-right: -1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Kazuki</a>
+      <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../#writing">Writing</a></li>
+        <li><a href="../#photography">Photography</a></li>
+        <li><a href="../#work">Work</a></li>
+        <li><a href="../#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="post-page">
+    <div class="container">
+      <a href="../" class="post-page-back">Back to home</a>
+      <div class="post-page-date">August 2026</div>
+      <h1>Nobody Owns the Outcome</h1>
+      <p class="post-page-subtitle">Healthcare coordination doesn't break because the tasks are hard. It breaks because the work spans a dozen organizations and no one is accountable for the end. That's the gap Kaigo is built to close.</p>
+      <div class="post-page-body">
+
+        <p>A skilled nursing facility has an open bed and a patient who needs it. Before anyone can be admitted, someone has to confirm the patient's coverage is active and will actually pay.</p>
+
+        <p>So a coordinator opens the eligibility portal. It returns a plan the patient hasn't been on since March. She checks a second source and gets a different plan with a different effective date. Now there are two answers and no way to know which one is real, so she calls the payer. Forty minutes of hold music, then the line drops. She calls back after lunch, reaches a rep who transfers her to the wrong department, and that department has closed for the day.</p>
+
+        <p>The bed stays empty. Tomorrow she starts over — except tomorrow she is also covering three other admissions and a Medicaid application that has been pending for five weeks.</p>
+
+        <p>Nothing in that sequence is difficult. Every individual step is something a competent person can do on the first try. What's hard is that the sequence has no end and no owner. It just recurs until somebody happens to push it across the line.</p>
+
+        <h2>The gap</h2>
+
+        <p>Healthcare coordination breaks because the work spans multiple organizations, systems, and communication channels — but no one consistently owns the outcome.</p>
+
+        <p>Every party owns their own piece, and owns it well. The payer owns adjudication. The hospital owns discharge. The pharmacy owns the fill. The county agency owns the determination. The family owns the documents someone asked them for. Each of them is doing their job.</p>
+
+        <p>What nobody owns is the sentence that actually matters: <em>this patient gets admitted, with verified coverage, before the bed goes to someone else.</em> That sentence spans all of them, so it belongs to none of them. It lands on whoever has the least protected calendar.</p>
+
+        <figure class="post-figure wide">
+          <svg viewBox="0 0 740 420" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+            <defs>
+              <marker id="arw-a" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#19333A"/>
+              </marker>
+              <marker id="arw-a-light" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#9B9B9B"/>
+              </marker>
+            </defs>
+
+            <!-- the case -->
+            <rect x="250" y="20" width="240" height="50" rx="8" fill="#19333A"/>
+            <text x="370" y="42" text-anchor="middle" font-size="12.5" font-weight="600" fill="#FFFFFF">One case</text>
+            <text x="370" y="59" text-anchor="middle" font-size="10.5" fill="#FAAC68">Verify coverage before admission</text>
+
+            <!-- fan out to counterparties -->
+            <path d="M 350 70 C 300 100, 130 100, 92 134" fill="none" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <path d="M 360 70 C 340 100, 250 100, 228 134" fill="none" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <path d="M 370 70 L 370 134" fill="none" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <path d="M 380 70 C 400 100, 490 100, 512 134" fill="none" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <path d="M 390 70 C 440 100, 610 100, 648 134" fill="none" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+
+            <!-- counterparties -->
+            <rect x="30" y="136" width="124" height="58" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="92" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Payer</text>
+            <text x="92" y="177" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">phone · portal</text>
+
+            <rect x="166" y="136" width="124" height="58" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="228" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Hospital</text>
+            <text x="228" y="177" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">fax · email</text>
+
+            <rect x="308" y="136" width="124" height="58" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="370" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Pharmacy</text>
+            <text x="370" y="177" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">portal · phone</text>
+
+            <rect x="450" y="136" width="124" height="58" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="512" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Family</text>
+            <text x="512" y="177" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">text · phone</text>
+
+            <rect x="586" y="136" width="124" height="58" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="648" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Agency</text>
+            <text x="648" y="177" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">fax · mail</text>
+
+            <!-- each drops work into the gap -->
+            <line x1="92" y1="196" x2="92" y2="248" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <line x1="228" y1="196" x2="228" y2="248" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <line x1="370" y1="196" x2="370" y2="248" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <line x1="512" y1="196" x2="512" y2="248" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+            <line x1="648" y1="196" x2="648" y2="248" stroke="#9B9B9B" stroke-width="1.1" marker-end="url(#arw-a-light)"/>
+
+            <!-- the gap -->
+            <rect x="30" y="256" width="680" height="140" rx="10" fill="#F8F6ED" stroke="#FAAC68" stroke-width="1.6" stroke-dasharray="7,4"/>
+            <text x="48" y="280" font-size="10.5" font-weight="600" fill="#9B9B9B" letter-spacing="0.09em">THE WORK BETWEEN</text>
+            <text x="370" y="313" text-anchor="middle" font-size="11.5" fill="#19333A">follow up · retry · switch channel · chase the deadline · escalate · document</text>
+            <text x="370" y="352" text-anchor="middle" font-size="18" font-weight="600" fill="#19333A">Owner: unassigned</text>
+            <text x="370" y="375" text-anchor="middle" font-size="10.5" fill="#6B6B6B">Every counterparty owns their step. Nobody owns the end.</text>
+          </svg>
+          <figcaption>The coordination gap. Each organization is accountable for its own piece; the work of holding the case together falls into the space between them.</figcaption>
+        </figure>
+
+        <p>This is where an enormous amount of healthcare labor goes. Calling the same organization for the fourth time. Requesting a document that was already sent to a different fax number. Following up with a family. Moving between a portal and a phone line because the portal doesn't have the field you need. Remembering a deadline nobody wrote down. Escalating a case that has quietly stopped moving. Documenting all of it afterward so the next person can pick it up.</p>
+
+        <blockquote>The challenge is rarely one isolated task. It's sustaining attention across a fragmented process until something actually resolves.</blockquote>
+
+        <h2>What we're building</h2>
+
+        <p>Kaigo is a long-horizon case operator. You give it a case. It keeps working until it reaches the defined outcome, or until it brings back a specific decision that requires a person.</p>
+
+        <p>Not a task. A case — with a goal, a state, an evidence requirement, and an end condition.</p>
+
+        <p>Take the coverage verification from the opening. Kaigo checks the available sources. It finds the conflict between them and treats that as an unresolved fact rather than an answer. It calls the payer. The line drops, so it retries when the queue reopens. It gets routed to the wrong department, so it follows up with the right one. It captures the reference number, because an answer without evidence isn't an answer. Then it returns something the facility can act on.</p>
+
+        <p>The facility never has to manage the steps or remember what happens next. That's the entire proposition.</p>
+
+        <figure class="post-figure wide">
+          <svg viewBox="0 0 740 420" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+            <defs>
+              <marker id="arw-b" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="9" markerHeight="7" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#19333A"/>
+              </marker>
+              <marker id="arw-b-orange" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="9" markerHeight="7" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#FAAC68"/>
+              </marker>
+            </defs>
+
+            <!-- intake header -->
+            <rect x="54" y="30" width="666" height="46" rx="8" fill="#19333A"/>
+            <text x="387" y="58" text-anchor="middle" font-size="12" font-weight="500" fill="#FFFFFF">A case arrives with a defined outcome and an evidence requirement</text>
+            <line x1="129" y1="76" x2="129" y2="126" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-b)"/>
+
+            <!-- the four steps -->
+            <rect x="54" y="130" width="150" height="64" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="129" y="156" text-anchor="middle" font-size="12.5" font-weight="600" fill="#19333A">Assess</text>
+            <text x="129" y="174" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">known · missing · blocked</text>
+
+            <rect x="226" y="130" width="150" height="64" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="301" y="156" text-anchor="middle" font-size="12.5" font-weight="600" fill="#19333A">Decide</text>
+            <text x="301" y="174" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">next action · channel · timing</text>
+
+            <rect x="398" y="130" width="150" height="64" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="473" y="156" text-anchor="middle" font-size="12.5" font-weight="600" fill="#19333A">Act</text>
+            <text x="473" y="174" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">call · portal · fax · email · text</text>
+
+            <rect x="570" y="130" width="150" height="64" rx="6" fill="#D1E4F2" stroke="#19333A" stroke-width="1"/>
+            <text x="645" y="156" text-anchor="middle" font-size="12.5" font-weight="600" fill="#19333A">Observe</text>
+            <text x="645" y="174" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">update the case state</text>
+
+            <line x1="206" y1="162" x2="223" y2="162" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-b)"/>
+            <line x1="378" y1="162" x2="395" y2="162" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-b)"/>
+            <line x1="550" y1="162" x2="567" y2="162" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-b)"/>
+
+            <!-- observe -> gate -->
+            <path d="M 645 194 V 222 H 387 V 246" fill="none" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-b)"/>
+
+            <!-- the gate -->
+            <rect x="227" y="250" width="320" height="52" rx="8" fill="#FAAC68" stroke="#19333A" stroke-width="1.5"/>
+            <text x="387" y="272" text-anchor="middle" font-size="12.5" font-weight="600" fill="#19333A">Outcome verified, with evidence?</text>
+            <text x="387" y="290" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.8">reference number · confirmation · written record</text>
+
+            <!-- loop back -->
+            <path d="M 227 276 H 26 V 162 H 50" fill="none" stroke="#FAAC68" stroke-width="1.5" marker-end="url(#arw-b-orange)"/>
+            <text x="38" y="228" font-size="9.5" font-weight="600" fill="#6B6B6B">not yet —</text>
+            <text x="38" y="242" font-size="9.5" fill="#6B6B6B">retry, follow up, switch channel, wait</text>
+
+            <!-- two exits -->
+            <path d="M 320 302 V 326 H 180 V 346" fill="none" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-b)"/>
+            <text x="196" y="320" font-size="9.5" fill="#6B6B6B">resolved</text>
+
+            <path d="M 450 302 V 326 H 590 V 346" fill="none" stroke="#19333A" stroke-width="1.5" marker-end="url(#arw-b)"/>
+            <text x="466" y="320" font-size="9.5" fill="#6B6B6B">needs human judgment</text>
+
+            <rect x="70" y="350" width="220" height="50" rx="6" fill="#EEF7E2" stroke="#19333A" stroke-width="1"/>
+            <text x="180" y="372" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">Verified outcome</text>
+            <text x="180" y="389" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">returned to the facility</text>
+
+            <rect x="460" y="350" width="250" height="50" rx="6" fill="#F8F6ED" stroke="#19333A" stroke-width="1"/>
+            <text x="585" y="372" text-anchor="middle" font-size="12" font-weight="600" fill="#19333A">One specific decision</text>
+            <text x="585" y="389" text-anchor="middle" font-size="9.5" fill="#19333A" opacity="0.75">handed to the right person</text>
+          </svg>
+          <figcaption>The loop, and the only two ways out of it. Everything else routes back through Assess — which is what makes it a case operator rather than a task runner.</figcaption>
+        </figure>
+
+        <p>The two exits are the design commitment. Kaigo either returns a verified outcome or it returns exactly one decision for a human to make. It does not return a transcript, a summary, or a note saying it tried. A workflow like this may run for weeks across phone calls, portals, email, fax, text messages, and human handoffs — and the whole point is that none of that intermediate mess reaches the customer.</p>
+
+        <h2>The loop is the product</h2>
+
+        <p>Calling, messaging, transcription, summarization: these are all becoming commodities. Prices are falling and quality is converging. Anyone can attach a voice model to a phone number this quarter and have it sound good.</p>
+
+        <p>None of that solves the problem in the opening. The coordinator's failure wasn't that she couldn't make a call. It was that the case had no memory, no retry policy, no rule about which channel to try next, and no definition of what would count as done.</p>
+
+        <p>That's the actual engineering:</p>
+
+        <figure class="post-figure">
+          <svg viewBox="0 0 680 344" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+            <defs>
+              <marker id="arw-c" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="9" markerHeight="7" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#9B9B9B"/>
+              </marker>
+            </defs>
+
+            <!-- what compounds -->
+            <rect x="24" y="24" width="632" height="152" rx="10" fill="#19333A"/>
+            <text x="44" y="51" font-size="10.5" font-weight="600" fill="#FAAC68" letter-spacing="0.09em">WHAT COMPOUNDS</text>
+
+            <rect x="42" y="64" width="140" height="34" rx="5" fill="#22434A" stroke="#3A5A62" stroke-width="1"/>
+            <text x="112" y="85" text-anchor="middle" font-size="10" fill="#FFFFFF">Persistent case state</text>
+
+            <rect x="194" y="64" width="140" height="34" rx="5" fill="#22434A" stroke="#3A5A62" stroke-width="1"/>
+            <text x="264" y="85" text-anchor="middle" font-size="10" fill="#FFFFFF">Evidence requirements</text>
+
+            <rect x="346" y="64" width="140" height="34" rx="5" fill="#22434A" stroke="#3A5A62" stroke-width="1"/>
+            <text x="416" y="85" text-anchor="middle" font-size="10" fill="#FFFFFF">Retry + follow-up logic</text>
+
+            <rect x="498" y="64" width="140" height="34" rx="5" fill="#22434A" stroke="#3A5A62" stroke-width="1"/>
+            <text x="568" y="85" text-anchor="middle" font-size="10" fill="#FFFFFF">Channel selection</text>
+
+            <rect x="42" y="110" width="140" height="34" rx="5" fill="#22434A" stroke="#3A5A62" stroke-width="1"/>
+            <text x="112" y="131" text-anchor="middle" font-size="10" fill="#FFFFFF">Escalation rules</text>
+
+            <rect x="194" y="110" width="140" height="34" rx="5" fill="#22434A" stroke="#3A5A62" stroke-width="1"/>
+            <text x="264" y="131" text-anchor="middle" font-size="10" fill="#FFFFFF">Authority boundaries</text>
+
+            <rect x="346" y="110" width="140" height="34" rx="5" fill="#22434A" stroke="#3A5A62" stroke-width="1"/>
+            <text x="416" y="131" text-anchor="middle" font-size="10" fill="#FFFFFF">Outcome verification</text>
+
+            <rect x="498" y="110" width="140" height="34" rx="5" fill="#22434A" stroke="#3A5A62" stroke-width="1"/>
+            <text x="568" y="131" text-anchor="middle" font-size="10" fill="#FFFFFF">Human supervision</text>
+
+            <text x="340" y="160" text-anchor="middle" font-size="9.5" fill="#9B9B9B">the part that has to be engineered, and gets better with every case</text>
+
+            <!-- arrows up -->
+            <line x1="200" y1="226" x2="200" y2="182" stroke="#9B9B9B" stroke-width="1.2" marker-end="url(#arw-c)"/>
+            <line x1="480" y1="226" x2="480" y2="182" stroke="#9B9B9B" stroke-width="1.2" marker-end="url(#arw-c)"/>
+            <text x="340" y="208" text-anchor="middle" font-size="10" fill="#6B6B6B">composed by the loop</text>
+
+            <!-- what commoditizes -->
+            <rect x="24" y="230" width="632" height="96" rx="10" fill="#F8F6ED" stroke="#E8E8E4" stroke-width="1"/>
+            <text x="44" y="256" font-size="10.5" font-weight="600" fill="#9B9B9B" letter-spacing="0.09em">WHAT COMMODITIZES</text>
+
+            <rect x="42" y="270" width="140" height="34" rx="5" fill="#FFFFFF" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="112" y="291" text-anchor="middle" font-size="10" fill="#19333A">Voice calls</text>
+
+            <rect x="194" y="270" width="140" height="34" rx="5" fill="#FFFFFF" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="264" y="291" text-anchor="middle" font-size="10" fill="#19333A">Messaging</text>
+
+            <rect x="346" y="270" width="140" height="34" rx="5" fill="#FFFFFF" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="416" y="291" text-anchor="middle" font-size="10" fill="#19333A">Transcription</text>
+
+            <rect x="498" y="270" width="140" height="34" rx="5" fill="#FFFFFF" stroke="#D0D0CC" stroke-width="1"/>
+            <text x="568" y="291" text-anchor="middle" font-size="10" fill="#19333A">Summarization</text>
+          </svg>
+          <figcaption>The capabilities everyone will have, and the layer that decides whether they add up to anything.</figcaption>
+        </figure>
+
+        <div class="aside-note">
+          Internally we call it <strong>chaser AI</strong>, which is a useful shorthand and an undersell. Chasing is the visible behavior. The product is a system that can hold ownership of a case over time.
+        </div>
+
+        <h2>Where we start</h2>
+
+        <p>A system like this is only trustworthy inside a tight boundary, so we're starting with workflows where the shape of the problem is unusually clear: the outcome is defined precisely, several external parties are involved, repeated follow-up is required, delay costs real money, most actions require no clinical judgment, and a human can safely take the exceptions.</p>
+
+        <ul>
+          <li>Insurance and benefit verification</li>
+          <li>Medicaid pending and enrollment</li>
+          <li>Pharmacy issue resolution</li>
+          <li>Discharge coordination</li>
+        </ul>
+
+        <p>The temptation with any of these is to pick off the easiest step and automate it — the outbound call, the status check, the reminder. We'd rather own one complete outcome than automate the first ten percent of ten different ones. Partial ownership just relocates the coordination problem; it doesn't remove it.</p>
+
+        <h2>What has to be true</h2>
+
+        <p>Persistent coordination is only worth anything if it changes something measurable on the other side. So the bar we're holding ourselves to is a financial or operational one: more admissions completed, fewer lost or delayed bed-days, faster reimbursement, fewer uncovered days, margin protected before a patient is ever admitted, fewer cases that stall out and die.</p>
+
+        <p>Hours saved is the easiest number to claim and the least convincing one. It's supporting evidence, not the argument.</p>
+
+        <p>The second thing that has to be true is portability. The same operating model has to hold across different facilities, states, payers, and counterparties — with the machine completing most of the actions and humans stepping in only at genuine exceptions. If it only works where we've hand-tuned it, we've built a services business with a model bolted on, and we'll know that quickly.</p>
+
+        <h2>What this becomes</h2>
+
+        <p>Kaigo builds long-horizon coordination agents that manage fragmented healthcare workflows until an outcome is reached. The larger opportunity is to become the operating layer responsible for the work that no single healthcare organization can finish on its own — because the work was never inside any one of their walls.</p>
+
+        <p>The bed from the opening is still empty in a lot of buildings tonight. Not because anyone made a clinical error, and not because the work was hard. Because the sequence outlasted everyone's attention. Whether that bed fills tomorrow comes down to something almost embarrassingly mundane: whether somebody kept calling.</p>
+
+        <p>That's the job we're taking.</p>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <span>&copy; 2026 Kazuki</span>
+      <span>San Francisco</span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
